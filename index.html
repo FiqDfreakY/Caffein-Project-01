@@ -103,13 +103,13 @@
       <!-- Hero Section (Garis Atas & Bawah Kiri-Kanan Sejajar Presisi + Paragraf Justify Penuh) -->
       <section class="relative border-b border-[#dfd3c5]/80 dark:border-[#332721] ambient-grid-pattern">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
-          <div class="grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-stretch">
+          <div class="grid lg:grid-cols-12 gap-y-8 sm:gap-y-10 lg:gap-y-0 lg:gap-x-12 items-stretch hero-align-grid">
             
             <!-- Left Column: Company Profile & Core Identity (Top & Bottom Flush with Right Column) -->
-            <div class="lg:col-span-7 flex flex-col justify-between">
+            <div class="lg:col-span-7 flex flex-col justify-between lg:contents">
               
               <!-- Top Metadata Line (Sejajar Garis Atas Kolom Kanan) -->
-              <div class="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center justify-between gap-1.5 sm:gap-3 pb-3.5 border-b border-[#c8b6a2]/85 dark:border-[#3d2e27] text-[10px] sm:text-xs font-semibold uppercase tracking-wider sm:tracking-widest text-espresso-800 dark:text-espresso-300">
+              <div class="lg:col-span-7 lg:row-start-1 flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center justify-between gap-1.5 sm:gap-3 pb-3.5 border-b border-[#c8b6a2]/85 dark:border-[#3d2e27] text-[10px] sm:text-xs font-semibold uppercase tracking-wider sm:tracking-widest text-espresso-800 dark:text-espresso-300">
                 <div class="flex items-center gap-2">
                   <span class="w-2 h-2 bg-emerald-600 animate-pulse shrink-0"></span>
                   <span>Profil Usaha &bull; Berdiri Sejak 2019 di Semarang</span>
@@ -118,7 +118,7 @@
               </div>
 
               <!-- Middle Content: Heading, Justified Description & Line Action Links -->
-              <div class="my-auto pt-5 pb-5 sm:pt-8 sm:pb-6 space-y-5 sm:space-y-6">
+              <div class="lg:col-span-7 lg:row-start-2 my-auto pt-5 pb-5 sm:pt-8 sm:pb-6 space-y-5 sm:space-y-6">
                 <h1 class="font-display text-2xl sm:text-5xl lg:text-[46px] font-extrabold text-stone-900 dark:text-stone-50 tracking-tight leading-[1.2] sm:leading-[1.15]">
                   Roastery Independen & Ruang Seduh Presisi untuk Kopi Terbaik Nusantara.
                 </h1>
@@ -154,7 +154,7 @@
               </div>
 
               <!-- Bottom Statistics Bar (Sejajar Garis Bawah Kolom Kanan) -->
-              <div class="border-t border-[#c8b6a2]/85 dark:border-[#332721] pt-5 sm:pt-6 grid grid-cols-3 divide-x divide-[#c8b6a2] dark:divide-[#3d2e27]">
+              <div class="lg:col-span-7 lg:row-start-3 border-t border-[#c8b6a2]/85 dark:border-[#332721] pt-5 sm:pt-6 grid grid-cols-3 divide-x divide-[#c8b6a2] dark:divide-[#3d2e27]">
                 <div class="pr-2.5 sm:pr-6">
                   <p class="font-display text-lg sm:text-3xl font-extrabold text-stone-900 dark:text-stone-100 leading-none whitespace-nowrap">100%</p>
                   <p class="text-[10px] sm:text-[11px] text-stone-600 dark:text-stone-400 mt-1.5 uppercase tracking-wider font-medium leading-snug">Direct Trade Petani Lokal</p>
@@ -172,16 +172,16 @@
             </div>
 
             <!-- Right Column: Photo Frame & Hopper Calibration (Sejajar Garis Atas & Bawah dengan Kolom Kiri) -->
-            <div class="lg:col-span-5 flex flex-col justify-between">
+            <div class="lg:col-span-5 flex flex-col justify-between lg:contents">
               
               <!-- Top Metadata Line (Sejajar Presisi dengan Kolom Kiri) -->
-              <div class="flex items-center justify-between gap-2 pb-3.5 border-b border-[#c8b6a2]/85 dark:border-[#3d2e27] text-[10px] sm:text-xs font-semibold uppercase tracking-wider sm:tracking-widest text-stone-700 dark:text-stone-300">
+              <div class="lg:col-span-5 lg:row-start-1 flex items-center justify-between gap-2 pb-3.5 border-b border-[#c8b6a2]/85 dark:border-[#3d2e27] text-[10px] sm:text-xs font-semibold uppercase tracking-wider sm:tracking-widest text-stone-700 dark:text-stone-300">
                 <span>Flagship Roastery &bull; Semarang</span>
                 <span class="font-mono text-[10px] sm:text-[11px] text-espresso-700 dark:text-espresso-400 shrink-0">Batch Sangrai #409</span>
               </div>
 
-              <!-- Center Translucent Photo Card -->
-              <div class="sharp-box p-3 sm:p-3.5 my-4 sm:my-5 flex-1 flex flex-col justify-between">
+              <!-- Center Translucent Photo Card (Garis Bawah Sejajar Presisi dengan Garis Statistik Kiri) -->
+              <div class="lg:col-span-5 lg:row-start-2 sharp-box p-3 sm:p-3.5 mt-4 sm:mt-5 mb-0 lg:-mb-px flex-1 flex flex-col justify-between">
                 <div class="aspect-[16/10] lg:aspect-auto lg:flex-1 w-full img-zoom-wrap bg-stone-200 dark:bg-stone-800 relative min-h-[200px] sm:min-h-[240px]">
                   <img src="assets/images/hero-roastery.jpg" alt="Flagship Roastery Caffein Semarang" class="w-full h-full object-cover" />
                 </div>
@@ -191,8 +191,8 @@
                 </div>
               </div>
 
-              <!-- Bottom Interactive Today's Barista Batch Strip (Sejajar Garis Bawah dengan Statistik Kiri) -->
-              <div class="lg:h-24 py-3.5 sm:py-3 border-t border-b border-[#c8b6a2]/85 dark:border-[#332721] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+              <!-- Bottom Interactive Today's Barista Batch Strip (Tanpa Garis Bawah, Sejajar dengan Statistik Kiri) -->
+              <div class="lg:col-span-5 lg:row-start-3 pt-4 sm:pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
                 <div class="min-w-0 w-full sm:w-auto">
                   <span class="text-[10px] font-bold uppercase tracking-widest text-espresso-700 dark:text-espresso-400 block leading-none">Kalibrasi Espresso Hari Ini</span>
                   <p id="hero-hopper-title" class="font-display font-bold text-xs sm:text-sm text-stone-900 dark:text-stone-100 mt-1.5 sm:mt-1 sm:truncate leading-snug">House Blend: Caffein Klasik (70% Gayo / 30% Temanggung)</p>
