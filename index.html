@@ -1,1 +1,1529 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Caffein — Specialty Roastery, Slow Bar & Collaborative Space</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="font-sans antialiased selection:bg-espresso-700 selection:text-white transition-colors duration-300 min-h-screen flex flex-col">
 
+  <!-- Sticky Navigation Bar -->
+  <header class="sticky top-0 z-40 bg-[#fbf8f4]/85 dark:bg-[#16110e]/85 backdrop-blur-md border-b border-[#dfd3c5]/80 dark:border-[#332721] transition-colors">
+    <div class="hdr-grid max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Brand Typography (Satu Baris Utuh & Tidak Terpotong) -->
+      <button onclick="switchPage('beranda', this)" class="hdr-brand text-left group focus:outline-none shrink-0">
+        <span class="font-display font-extrabold text-base sm:text-lg tracking-tight text-stone-900 dark:text-stone-100 block whitespace-nowrap leading-none group-hover:text-espresso-700 dark:group-hover:text-espresso-400 transition-colors">
+          CAFFEIN
+        </span>
+        <span class="text-[8.5px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.2em] text-espresso-700 dark:text-espresso-400 font-semibold block whitespace-nowrap mt-1 sm:mt-1.5">
+          Roastery &bull; Slow Bar &bull; Semarang
+        </span>
+      </button>
+
+      <!-- Desktop Page Switcher Links -->
+      <nav aria-label="Navigasi Halaman Utama" class="hdr-nav">
+        <button onclick="switchPage('beranda', this)" data-page="beranda" class="nav-open-link active">
+          Beranda
+        </button>
+        <button onclick="switchPage('menu', this)" data-page="menu" class="nav-open-link">
+          Katalog Menu
+        </button>
+        <button onclick="switchPage('racik', this)" data-page="racik" class="nav-open-link">
+          Racik Kopi
+        </button>
+        <button onclick="switchPage('biji', this)" data-page="biji" class="nav-open-link">
+          Biji Nusantara
+        </button>
+        <button onclick="switchPage('seduh', this)" data-page="seduh" class="nav-open-link">
+          Kalkulator Seduh
+        </button>
+        <button onclick="switchPage('reservasi', this)" data-page="reservasi" class="nav-open-link">
+          Reservasi Ruang
+        </button>
+        <button onclick="switchPage('ulasan', this)" data-page="ulasan" class="nav-open-link">
+          Ulasan & FAQ
+        </button>
+      </nav>
+
+      <!-- Right Action Controls -->
+      <div class="hdr-actions flex items-center divide-x divide-[#c8b6a2] dark:divide-[#3d2e27] text-xs font-semibold shrink-0">
+        <button onclick="switchPage('menu'); filterMenuByFavorites();" id="fav-QuickBtn" class="btn-click-anim pr-2.5 sm:pr-3.5 py-1 text-stone-700 dark:text-stone-200 hover:text-espresso-700 dark:hover:text-espresso-400 transition-colors flex items-center gap-1 sm:gap-1.5 whitespace-nowrap" title="Menu Favorit Tersimpan">
+          <svg class="w-3.5 h-3.5 text-espresso-700 dark:text-espresso-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+          <span class="hidden sm:inline">Favorit</span>
+          <span class="font-mono text-[11px] font-bold text-espresso-700 dark:text-espresso-400">(<span id="fav-count-badge">0</span>)</span>
+        </button>
+
+        <button onclick="toggleTheme()" id="theme-toggle" class="btn-click-anim px-2.5 sm:px-3.5 py-1 text-stone-700 dark:text-stone-200 hover:text-espresso-700 dark:hover:text-espresso-400 transition-colors flex items-center" aria-label="Ganti Tema Terang atau Gelap">
+          <svg class="w-4 h-4 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          <svg class="w-4 h-4 hidden dark:block text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        </button>
+
+        <button onclick="toggleCartDrawer(true)" class="btn-click-anim px-2.5 sm:pl-3.5 sm:pr-0 py-1 text-stone-900 dark:text-stone-100 hover:text-espresso-700 dark:hover:text-espresso-400 font-bold uppercase tracking-wider transition-colors flex items-center gap-1 sm:gap-1.5 whitespace-nowrap">
+          <svg class="w-3.5 h-3.5 text-espresso-700 dark:text-espresso-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="hidden sm:inline">Keranjang</span>
+          <span class="font-mono text-[11px] font-extrabold text-espresso-700 dark:text-espresso-400">(<span id="cart-badge">0</span>)</span>
+        </button>
+
+        <button onclick="toggleMobileMenu()" class="md:hidden pl-2.5 py-1 text-stone-700 dark:text-stone-300 hover:text-espresso-700 transition-colors" aria-label="Buka Menu Navigasi">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-[#dfd3c5] dark:border-[#332721] bg-[#fbf8f4]/95 dark:bg-[#16110e]/95 backdrop-blur-md px-4 py-3 shadow-lg">
+      <div class="flex flex-col divide-y divide-[#dfd3c5]/60 dark:divide-[#332721] text-xs font-semibold uppercase tracking-wider">
+        <button onclick="switchPage('beranda'); toggleMobileMenu()" data-page="beranda" class="mobile-nav-btn active text-left py-3 text-stone-800 dark:text-stone-200 hover:text-espresso-700 transition-colors">Beranda</button>
+        <button onclick="switchPage('menu'); toggleMobileMenu()" data-page="menu" class="mobile-nav-btn text-left py-3 text-stone-800 dark:text-stone-200 hover:text-espresso-700 transition-colors">Katalog Menu</button>
+        <button onclick="switchPage('racik'); toggleMobileMenu()" data-page="racik" class="mobile-nav-btn text-left py-3 text-stone-800 dark:text-stone-200 hover:text-espresso-700 transition-colors">Racik Kopi</button>
+        <button onclick="switchPage('biji'); toggleMobileMenu()" data-page="biji" class="mobile-nav-btn text-left py-3 text-stone-800 dark:text-stone-200 hover:text-espresso-700 transition-colors">Biji Nusantara</button>
+        <button onclick="switchPage('seduh'); toggleMobileMenu()" data-page="seduh" class="mobile-nav-btn text-left py-3 text-stone-800 dark:text-stone-200 hover:text-espresso-700 transition-colors">Kalkulator Seduh</button>
+        <button onclick="switchPage('reservasi'); toggleMobileMenu()" data-page="reservasi" class="mobile-nav-btn text-left py-3 text-stone-800 dark:text-stone-200 hover:text-espresso-700 transition-colors">Reservasi Ruang</button>
+        <button onclick="switchPage('ulasan'); toggleMobileMenu()" data-page="ulasan" class="mobile-nav-btn text-left py-3 text-stone-800 dark:text-stone-200 hover:text-espresso-700 transition-colors">Ulasan & FAQ</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN MULTI-PAGE CONTAINER -->
+  <main class="flex-1">
+
+    <!-- ==========================================
+         HALAMAN 1: BERANDA (COMPANY PROFILE & COFFEE KNOWLEDGE)
+         ========================================== -->
+    <div id="page-beranda" class="page-section active">
+      
+      <!-- Hero Section (Garis Atas & Bawah Kiri-Kanan Sejajar Presisi + Paragraf Justify Penuh) -->
+      <section class="relative border-b border-[#dfd3c5]/80 dark:border-[#332721] ambient-grid-pattern">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
+          <div class="grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-stretch">
+            
+            <!-- Left Column: Company Profile & Core Identity (Top & Bottom Flush with Right Column) -->
+            <div class="lg:col-span-7 flex flex-col justify-between">
+              
+              <!-- Top Metadata Line (Sejajar Garis Atas Kolom Kanan) -->
+              <div class="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center justify-between gap-1.5 sm:gap-3 pb-3.5 border-b border-[#c8b6a2]/85 dark:border-[#3d2e27] text-[10px] sm:text-xs font-semibold uppercase tracking-wider sm:tracking-widest text-espresso-800 dark:text-espresso-300">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 bg-emerald-600 animate-pulse shrink-0"></span>
+                  <span>Profil Usaha &bull; Berdiri Sejak 2019 di Semarang</span>
+                </div>
+                <span id="live-store-status" class="text-emerald-700 dark:text-emerald-400 font-mono text-[10px] sm:text-[11px] pl-4 sm:pl-0">Sedang Buka (07:00 - 23:00 WIB)</span>
+              </div>
+
+              <!-- Middle Content: Heading, Justified Description & Line Action Links -->
+              <div class="my-auto pt-5 pb-5 sm:pt-8 sm:pb-6 space-y-5 sm:space-y-6">
+                <h1 class="font-display text-2xl sm:text-5xl lg:text-[46px] font-extrabold text-stone-900 dark:text-stone-50 tracking-tight leading-[1.2] sm:leading-[1.15]">
+                  Roastery Independen & Ruang Seduh Presisi untuk Kopi Terbaik Nusantara.
+                </h1>
+
+                <p class="text-sm sm:text-base text-stone-700 dark:text-stone-300 leading-relaxed text-justify w-full">
+                  <strong class="text-stone-900 dark:text-stone-100 font-semibold">Caffein</strong> adalah rumah sangrai mikro (<em>micro-roastery</em>), laboratorium seduh manual, dan ruang kerja kolaboratif yang berfokus pada ketelusuran panen Nusantara. Kami bermitra langsung dengan kelompok tani dari Aceh Gayo, Bali Kintamani, Flores Bajawa, hingga Toraja Sapan untuk menjaga transparansi rantai pasok, akurasi kurva sangrai, serta konsistensi karakter rasa di setiap cangkir yang kami sajikan.
+                </p>
+
+                <!-- Primary Navigation Links -->
+                <div class="pt-1 sm:pt-2 grid grid-cols-1 sm:grid-cols-3 items-stretch divide-y sm:divide-y-0 sm:divide-x divide-[#c8b6a2] dark:divide-[#3d2e27] border-y sm:border-y-0 border-[#c8b6a2]/80 dark:border-[#3d2e27]">
+                  <div class="py-2.5 sm:py-0 sm:pr-6 flex items-center sm:h-14">
+                    <button onclick="switchPage('menu')" class="line-action-link primary-line !border-b-0 !whitespace-normal text-left leading-snug w-full sm:w-auto justify-between sm:justify-start">
+                      <span>Eksplorasi Katalog Menu</span>
+                      <i data-lucide="arrow-right" class="w-4 h-4 shrink-0"></i>
+                    </button>
+                  </div>
+                  <div class="py-2.5 sm:py-0 sm:px-6 flex items-center sm:h-14">
+                    <button onclick="openQuizModal()" class="line-action-link !border-b-0 !whitespace-normal text-left leading-snug w-full sm:w-auto justify-between sm:justify-start">
+                      <span class="flex items-center gap-2">
+                        <i data-lucide="sliders" class="w-3.5 h-3.5 text-espresso-700 dark:text-espresso-400 shrink-0"></i>
+                        <span>Asisten Pencocok Kopi</span>
+                      </span>
+                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-stone-400 sm:hidden shrink-0"></i>
+                    </button>
+                  </div>
+                  <div class="py-2.5 sm:py-0 sm:pl-6 flex items-center sm:h-14">
+                    <button onclick="switchPage('reservasi')" class="line-action-link !border-b-0 !whitespace-normal text-left leading-snug w-full sm:w-auto justify-between sm:justify-start">
+                      <span>Reservasi Meja</span>
+                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-stone-500 shrink-0"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bottom Statistics Bar (Sejajar Garis Bawah Kolom Kanan) -->
+              <div class="border-t border-[#c8b6a2]/85 dark:border-[#332721] pt-5 sm:pt-6 grid grid-cols-3 divide-x divide-[#c8b6a2] dark:divide-[#3d2e27]">
+                <div class="pr-2.5 sm:pr-6">
+                  <p class="font-display text-lg sm:text-3xl font-extrabold text-stone-900 dark:text-stone-100 leading-none whitespace-nowrap">100%</p>
+                  <p class="text-[10px] sm:text-[11px] text-stone-600 dark:text-stone-400 mt-1.5 uppercase tracking-wider font-medium leading-snug">Direct Trade Petani Lokal</p>
+                </div>
+                <div class="px-2.5 sm:px-6">
+                  <p class="font-display text-lg sm:text-3xl font-extrabold text-espresso-700 dark:text-espresso-400 leading-none whitespace-nowrap">86.5+</p>
+                  <p class="text-[10px] sm:text-[11px] text-stone-600 dark:text-stone-400 mt-1.5 uppercase tracking-wider font-medium leading-snug">Skor Kurasi Cupping SCA</p>
+                </div>
+                <div class="pl-2.5 sm:pl-6">
+                  <p class="font-display text-lg sm:text-3xl font-extrabold text-stone-900 dark:text-stone-100 leading-none whitespace-nowrap">150 Mbps</p>
+                  <p class="text-[10px] sm:text-[11px] text-stone-600 dark:text-stone-400 mt-1.5 uppercase tracking-wider font-medium leading-snug">Dedicated Fiber & Ruang Kerja</p>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right Column: Photo Frame & Hopper Calibration (Sejajar Garis Atas & Bawah dengan Kolom Kiri) -->
+            <div class="lg:col-span-5 flex flex-col justify-between">
+              
+              <!-- Top Metadata Line (Sejajar Presisi dengan Kolom Kiri) -->
+              <div class="flex items-center justify-between gap-2 pb-3.5 border-b border-[#c8b6a2]/85 dark:border-[#3d2e27] text-[10px] sm:text-xs font-semibold uppercase tracking-wider sm:tracking-widest text-stone-700 dark:text-stone-300">
+                <span>Flagship Roastery &bull; Semarang</span>
+                <span class="font-mono text-[10px] sm:text-[11px] text-espresso-700 dark:text-espresso-400 shrink-0">Batch Sangrai #409</span>
+              </div>
+
+              <!-- Center Translucent Photo Card -->
+              <div class="sharp-box p-3 sm:p-3.5 my-4 sm:my-5 flex-1 flex flex-col justify-between">
+                <div class="aspect-[16/10] lg:aspect-auto lg:flex-1 w-full img-zoom-wrap bg-stone-200 dark:bg-stone-800 relative min-h-[200px] sm:min-h-[240px]">
+                  <img src="assets/images/hero-roastery.jpg" alt="Flagship Roastery Caffein Semarang" class="w-full h-full object-cover" />
+                </div>
+                <div class="pt-3 px-1 flex flex-wrap items-center justify-between gap-1 text-xs text-stone-600 dark:text-stone-400 border-t border-[#dfd3c5]/80 dark:border-[#332721] mt-3">
+                  <span class="font-semibold text-stone-800 dark:text-stone-200">Jl. Pemuda No. 118, Semarang Tengah</span>
+                  <span class="text-[11px] text-stone-500">Slow Bar & Roastery</span>
+                </div>
+              </div>
+
+              <!-- Bottom Interactive Today's Barista Batch Strip (Sejajar Garis Bawah dengan Statistik Kiri) -->
+              <div class="lg:h-24 py-3.5 sm:py-3 border-t border-b border-[#c8b6a2]/85 dark:border-[#332721] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+                <div class="min-w-0 w-full sm:w-auto">
+                  <span class="text-[10px] font-bold uppercase tracking-widest text-espresso-700 dark:text-espresso-400 block leading-none">Kalibrasi Espresso Hari Ini</span>
+                  <p id="hero-hopper-title" class="font-display font-bold text-xs sm:text-sm text-stone-900 dark:text-stone-100 mt-1.5 sm:mt-1 sm:truncate leading-snug">House Blend: Caffein Klasik (70% Gayo / 30% Temanggung)</p>
+                  <p id="hero-hopper-notes" class="text-[11px] text-stone-600 dark:text-stone-400 mt-0.5 sm:truncate leading-snug">Tasting Notes: Dark Chocolate, Roasted Hazelnut, Sweet Caramel</p>
+                </div>
+                <button onclick="cycleHopperBean()" class="line-action-link shrink-0 self-end sm:self-auto" title="Ganti Kalibrasi Biji Hari Ini">
+                  <svg class="w-3.5 h-3.5 text-espresso-700 dark:text-espresso-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+                  <span>Ganti Hopper</span>
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Profil Usaha & 4 Pilar Operasional (Kiri & Kanan Sejajar Rapi + Teks Justify) -->
+      <section class="py-10 sm:py-16 border-b border-[#dfd3c5]/80 dark:border-[#332721]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <!-- Aligned 2-Column Editorial Block (Foto 2: Sejajar Atas-Bawah & Justify Rapi) -->
+          <div class="grid lg:grid-cols-12 gap-8 lg:gap-10 items-stretch pb-10 mb-10 border-b border-[#dfd3c5]/80 dark:border-[#332721]">
+            <div class="lg:col-span-5 flex flex-col justify-between">
+              <div>
+                <p class="text-xs font-bold uppercase tracking-[0.2em] text-espresso-700 dark:text-espresso-400 mb-2">Tentang Caffein</p>
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-stone-900 dark:text-stone-100 tracking-tight leading-snug">
+                  Menghubungkan Kebun Kopi Dataran Tinggi dengan Presisi Bar Modern.
+                </h2>
+              </div>
+              <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed text-justify pt-4 mt-4 border-t border-[#dfd3c5]/70 dark:border-[#332721]">
+                Klik pada salah satu dari empat pilar operasional di bawah untuk meninjau standar teknis penyangraian, kimia air seduhan, serta komitmen keberlanjutan kami bersama petani lokal.
+              </p>
+            </div>
+
+            <div class="lg:col-span-7 lg:border-l lg:border-[#c8b6a2]/70 dark:lg:border-[#332721] lg:pl-10 flex flex-col justify-between space-y-4 text-sm text-stone-700 dark:text-stone-300 leading-relaxed">
+              <p class="text-justify">
+                Didirikan pada tahun 2019 oleh tim penyangrai bersertifikasi Q-Arabica Grader dan barista spesialis manual brew, <strong class="text-stone-900 dark:text-stone-100 font-semibold">Caffein</strong> lahir dari komitmen menghadirkan kopi spesialti Indonesia yang terukur secara ilmiah namun tetap hangat, transparan, dan inklusif bagi setiap penikmat kopi maupun pekerja kreatif.
+              </p>
+              <p class="text-justify">
+                Setiap lot biji hijau (<em>green beans</em>) yang tiba di fasilitas kami diuji kadar air serta densitasnya secara ketat, disangrai menggunakan mesin konveksi-konduksi presisi dengan pencatatan kurva suhu digital real-time, lalu melalui proses pengistirahatan (<em>degassing</em>) selama 7 hingga 14 hari sebelum diekstraksi di meja bar.
+              </p>
+            </div>
+          </div>
+
+          <!-- 4 Pillars Interactive Translucent Blur Cards -->
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
+            <div onclick="selectCompanyPillar(0)" id="pillar-card-0" class="cursor-pointer sharp-box sharp-box-hover p-6 border-t-2 border-t-espresso-700 flex flex-col">
+              <div>
+                <div class="flex items-center justify-between pb-3 mb-4 border-b border-[#dfd3c5]/70 dark:border-[#332721]">
+                  <span class="text-[11px] font-mono font-semibold uppercase tracking-widest text-espresso-700 dark:text-espresso-400">Pilar 01 &bull; Aktif</span>
+                  <i data-lucide="sprout" class="w-4 h-4 text-espresso-700 dark:text-espresso-400"></i>
+                </div>
+                <h3 class="font-display font-bold text-base text-stone-900 dark:text-stone-100 mb-3 leading-snug">Kemitraan Langsung Petani</h3>
+              </div>
+              <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed text-left">
+                Membeli gabah dan beras kopi langsung dari koperasi petani dengan harga premium 25–40% di atas harga pasar komoditas untuk menjaga kesejahteraan kebun.
+              </p>
+            </div>
+
+            <div onclick="selectCompanyPillar(1)" id="pillar-card-1" class="cursor-pointer sharp-box sharp-box-hover p-6 flex flex-col">
+              <div>
+                <div class="flex items-center justify-between pb-3 mb-4 border-b border-[#dfd3c5]/70 dark:border-[#332721]">
+                  <span class="text-[11px] font-mono uppercase tracking-widest text-stone-500">Pilar 02 &bull; Detail</span>
+                  <i data-lucide="flame" class="w-4 h-4 text-espresso-700 dark:text-espresso-400"></i>
+                </div>
+                <h3 class="font-display font-bold text-base text-stone-900 dark:text-stone-100 mb-3 leading-snug">Small-Batch Micro Roasting</h3>
+              </div>
+              <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed text-left">
+                Penyangraian dilakukan dalam kapasitas terukur (3–5 kg per batch) guna menjaga konsistensi karamelisasi dan menonjolkan karakter asli terroir daerah.
+              </p>
+            </div>
+
+            <div onclick="selectCompanyPillar(2)" id="pillar-card-2" class="cursor-pointer sharp-box sharp-box-hover p-6 flex flex-col">
+              <div>
+                <div class="flex items-center justify-between pb-3 mb-4 border-b border-[#dfd3c5]/70 dark:border-[#332721]">
+                  <span class="text-[11px] font-mono uppercase tracking-widest text-stone-500">Pilar 03 &bull; Detail</span>
+                  <i data-lucide="droplets" class="w-4 h-4 text-espresso-700 dark:text-espresso-400"></i>
+                </div>
+                <h3 class="font-display font-bold text-base text-stone-900 dark:text-stone-100 mb-3 leading-snug">Kalibrasi Air & Ekstraksi</h3>
+              </div>
+              <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed text-left">
+                Menggunakan sistem filtrasi Reverse Osmosis dengan remineralisasi magnesium dan kalsium terukur (TDS 85–95 ppm) sesuai standar ekstraksi SCA.
+              </p>
+            </div>
+
+            <div onclick="selectCompanyPillar(3)" id="pillar-card-3" class="cursor-pointer sharp-box sharp-box-hover p-6 flex flex-col">
+              <div>
+                <div class="flex items-center justify-between pb-3 mb-4 border-b border-[#dfd3c5]/70 dark:border-[#332721]">
+                  <span class="text-[11px] font-mono uppercase tracking-widest text-stone-500">Pilar 04 &bull; Detail</span>
+                  <i data-lucide="building-2" class="w-4 h-4 text-espresso-700 dark:text-espresso-400"></i>
+                </div>
+                <h3 class="font-display font-bold text-base text-stone-900 dark:text-stone-100 mb-3 leading-snug">Ekosistem Ruang Produktif</h3>
+              </div>
+              <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed text-left">
+                Dirancang dengan tata akustik ruang yang tenang, pencahayaan hangat ramah mata, stopkontak di setiap meja, serta fasilitas ruang rapat privat.
+              </p>
+            </div>
+          </div>
+
+          <!-- Dynamic Pillar Detail Box -->
+          <div id="pillar-detail-banner" class="mt-6 sharp-box p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="space-y-2 max-w-4xl">
+              <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-espresso-700 dark:text-espresso-400">
+                <span class="w-1.5 h-1.5 bg-espresso-700 dark:bg-espresso-400 inline-block"></span>
+                <span id="pillar-detail-tag">Pilar 01 &bull; Transparansi Hulu ke Hilir</span>
+              </div>
+              <h4 id="pillar-detail-title" class="font-display font-bold text-lg text-stone-900 dark:text-stone-100">
+                Kontrak Panen Tahunan Bersama 6 Koperasi Tani Nusantara
+              </h4>
+              <p id="pillar-detail-desc" class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed text-left">
+                Setiap kemasan biji kopi Caffein mencantumkan nama stasiun pencucian, varietas pohon, ketinggian tanam (mdpl), serta tanggal panen. Pendapatan langsung disalurkan untuk peremajaan kebun dan fasilitas penjemuran rumah kaca (solar dryer dome).
+              </p>
+            </div>
+            <div class="shrink-0">
+              <button onclick="switchPage('biji')" class="line-action-link primary-line">
+                <span>Lihat Biji Nusantara</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Baru (Permintaan User): Slide Foto Interaktif Jenis Kopi yang Digunakan di Kafe dengan Animasi Smooth -->
+      <section class="py-10 sm:py-16 border-b border-[#dfd3c5]/80 dark:border-[#332721]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <!-- Structured Section Header (Sejajar & Justify Rapi) -->
+          <div class="grid lg:grid-cols-12 gap-3.5 sm:gap-6 lg:gap-10 items-end pb-6 mb-8 border-b border-[#dfd3c5]/80 dark:border-[#332721]">
+            <div class="lg:col-span-7">
+              <p class="text-xs font-bold uppercase tracking-[0.2em] text-espresso-700 dark:text-espresso-400 mb-2">Galeri Kurasi Roastery &bull; Interactive Slide</p>
+              <h2 class="font-display text-2xl sm:text-3xl font-bold text-stone-900 dark:text-stone-100 tracking-tight">
+                Jenis Biji Kopi yang Digunakan di Bar Kami
+              </h2>
+            </div>
+            <div class="lg:col-span-5 lg:border-l lg:border-[#c8b6a2]/70 dark:lg:border-[#332721] lg:pl-6">
+              <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed text-justify">
+                Geser atau klik foto di bawah untuk melihat informasi kebun, profil sangrai, serta karakter rasa dari lima jenis biji kopi utama yang kami gunakan setiap hari di bar espresso dan slow bar.
+              </p>
+            </div>
+          </div>
+
+          <div class="bean-wrap relative max-w-5xl mx-auto" onmouseenter="pauseBeanHover(true)" onmouseleave="pauseBeanHover(false)">
+            <div id="bean-stage" class="bean-stage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Jenis biji kopi Caffein"></div>
+            <button type="button" onclick="prevBeanSlide()" class="bean-arrow left-0" aria-label="Slide sebelumnya"><span class="bean-arrow-sym">&lt;</span></button>
+            <button type="button" onclick="nextBeanSlide()" class="bean-arrow right-0" aria-label="Slide berikutnya"><span class="bean-arrow-sym">&gt;</span></button>
+          </div>
+          <div id="bean-dots" class="flex justify-center gap-2 mt-3"></div>
+          <div id="bean-info" class="mt-5 max-w-2xl mx-auto"></div>
+        </div>
+      </section>
+
+      <!-- Section: Eksplorator Interaktif Ensiklopedia Kopi (Header & Teks Rapi Justify) -->
+      <section class="py-10 sm:py-16 border-b border-[#dfd3c5]/80 dark:border-[#332721]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <!-- Structured Section Header (Foto 3 Lingkaran Ungu Diperbaiki Menjadi Kolom Terstruktur & Justify) -->
+          <div class="grid lg:grid-cols-12 gap-3.5 sm:gap-6 lg:gap-10 items-end pb-6 mb-10 border-b border-[#dfd3c5]/80 dark:border-[#332721]">
+            <div class="lg:col-span-7">
+              <p class="text-xs font-bold uppercase tracking-[0.2em] text-espresso-700 dark:text-espresso-400 mb-2">Edukasi & Karakteristik Kopi Interaktif</p>
+              <h2 class="font-display text-2xl sm:text-3xl font-bold text-stone-900 dark:text-stone-100 tracking-tight">
+                Simulasi Proses Pascapanen & Profil Sangrai
+              </h2>
+            </div>
+            <div class="lg:col-span-5 lg:border-l lg:border-[#c8b6a2]/70 dark:lg:border-[#332721] lg:pl-6">
+              <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed text-justify">
+                Klik pada metode proses pascapanen atau tingkat sangrai di bawah ini untuk membandingkan spektrum keasaman, ketebalan body, dan intensitas rasa manis secara langsung.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+            <!-- Left: Interactive Process Selector & Live Sensory Bars -->
+            <div class="lg:col-span-7 sharp-box p-6 sm:p-8 flex flex-col justify-between">
+              <div>
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between border-b border-[#dfd3c5]/80 dark:border-[#332721] pb-4 mb-6 gap-2">
+                  <div>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-espresso-700 dark:text-espresso-400">Simulator Sensorik</span>
+                    <h3 class="font-display font-bold text-lg text-stone-900 dark:text-stone-100">Pilih Metode Proses Pascapanen</h3>
+                  </div>
+                  <div class="flex items-center gap-2 text-xs font-mono font-semibold text-espresso-800 dark:text-espresso-300">
+                    <span class="w-4 h-[1.5px] bg-espresso-600 inline-block"></span>
+                    <span id="proc-ferment-badge">Fermentasi Air 12–36 Jam</span>
+                  </div>
+                </div>
+
+                <!-- 4 Interactive Method Tabs -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 border border-[#c8b6a2] dark:border-[#3d2e27] sm:divide-x divide-[#c8b6a2] dark:divide-[#3d2e27] seg-control-grid seg-grid-2x2 mb-6">
+                  <button onclick="selectCoffeeProcess('washed')" id="proc-btn-washed" class="proc-tab-btn seg-item-btn active text-left">
+                    <span class="block text-[10px] opacity-60 font-mono mb-0.5">01</span>
+                    <span class="block uppercase tracking-wider">Full Washed</span>
+                  </button>
+                  <button onclick="selectCoffeeProcess('natural')" id="proc-btn-natural" class="proc-tab-btn seg-item-btn text-left">
+                    <span class="block text-[10px] opacity-60 font-mono mb-0.5">02</span>
+                    <span class="block uppercase tracking-wider">Natural (Dry)</span>
+                  </button>
+                  <button onclick="selectCoffeeProcess('honey')" id="proc-btn-honey" class="proc-tab-btn seg-item-btn text-left">
+                    <span class="block text-[10px] opacity-60 font-mono mb-0.5">03</span>
+                    <span class="block uppercase tracking-wider">Honey Process</span>
+                  </button>
+                  <button onclick="selectCoffeeProcess('giling')" id="proc-btn-giling" class="proc-tab-btn seg-item-btn text-left">
+                    <span class="block text-[10px] opacity-60 font-mono mb-0.5">04</span>
+                    <span class="block uppercase tracking-wider">Giling Basah</span>
+                  </button>
+                </div>
+
+                <!-- Dynamic Description (Justified) -->
+                <div class="pl-4 border-l-2 border-espresso-700 dark:border-espresso-400 mb-6">
+                  <h4 id="proc-title" class="font-display font-bold text-base text-stone-900 dark:text-stone-100 mb-1.5">Full Washed (Proses Basah Terfermentasi)</h4>
+                  <p id="proc-desc" class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed text-justify">
+                    Kulit buah dan lendir (mucilage) dibersihkan sepenuhnya melalui fermentasi air terukur sebelum dijemur. Menghasilkan kejernihan rasa (clarity) paling tinggi, keasaman sitrus yang bersih, serta aftertaste lembut menyerupai teh.
+                  </p>
+                </div>
+
+                <!-- Animated Sensory Spectrum Bars -->
+                <div class="space-y-4">
+                  <div>
+                    <div class="flex justify-between text-xs font-semibold mb-1.5">
+                      <span class="text-stone-600 dark:text-stone-400">Tingkat Keasaman (Brightness / Acidity)</span>
+                      <span id="proc-val-acid" class="font-mono font-bold text-espresso-700 dark:text-espresso-400">88%</span>
+                    </div>
+                    <div class="h-1.5 bg-[#dfd3c5]/70 dark:bg-[#2a201b] overflow-hidden">
+                      <div id="proc-bar-acid" class="flavor-bar-fill h-full bg-espresso-600" style="width: 88%"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-xs font-semibold mb-1.5">
+                      <span class="text-stone-600 dark:text-stone-400">Kekentalan Tekstur (Body / Mouthfeel)</span>
+                      <span id="proc-val-body" class="font-mono font-bold text-espresso-700 dark:text-espresso-400">55%</span>
+                    </div>
+                    <div class="h-1.5 bg-[#dfd3c5]/70 dark:bg-[#2a201b] overflow-hidden">
+                      <div id="proc-bar-body" class="flavor-bar-fill h-full bg-stone-800 dark:bg-stone-300" style="width: 55%"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-xs font-semibold mb-1.5">
+                      <span class="text-stone-600 dark:text-stone-400">Intensitas Manis & Fruity (Sweetness)</span>
+                      <span id="proc-val-sweet" class="font-mono font-bold text-espresso-700 dark:text-espresso-400">75%</span>
+                    </div>
+                    <div class="h-1.5 bg-[#dfd3c5]/70 dark:bg-[#2a201b] overflow-hidden">
+                      <div id="proc-bar-sweet" class="flavor-bar-fill h-full bg-amber-600" style="width: 75%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recommended Origin & Action -->
+              <div class="mt-6 pt-4 border-t border-[#dfd3c5]/80 dark:border-[#332721] flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div>
+                  <span class="text-stone-500 dark:text-stone-400">Rekomendasi Biji di Bar Kami:</span>
+                  <strong id="proc-rec-origin" class="text-stone-900 dark:text-stone-100 ml-1">Bali Kintamani (Citrus, Green Apple, Brown Sugar)</strong>
+                </div>
+                <button onclick="switchPage('biji')" class="line-action-link primary-line">
+                  <span>Cek Detail Biji</span>
+                  <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: Interactive Roast Level Explorer -->
+            <div class="lg:col-span-5 sharp-box p-6 sm:p-8 flex flex-col justify-between">
+              <div>
+                <div class="border-b border-[#dfd3c5]/80 dark:border-[#332721] pb-4 mb-6">
+                  <span class="text-[10px] font-bold uppercase tracking-widest text-espresso-700 dark:text-espresso-400">Laboratorium Roastery</span>
+                  <h3 class="font-display font-bold text-lg text-stone-900 dark:text-stone-100">Spektrum Profil Sangrai (Roast Profile)</h3>
+                </div>
+
+                <!-- Interactive Roast Selector Tabs -->
+                <div class="grid grid-cols-3 border border-[#c8b6a2] dark:border-[#3d2e27] divide-x divide-[#c8b6a2] dark:divide-[#3d2e27] seg-control-grid mb-6">
+                  <button onclick="selectRoastProfile('light')" id="roast-btn-light" class="seg-item-btn active text-left">
+                    <span class="w-2 h-2 rounded-full bg-amber-500 inline-block mb-1"></span>
+                    <span class="block text-[11px] sm:text-xs font-bold uppercase">Light-Med</span>
+                    <span class="block text-[9px] sm:text-[10px] opacity-75 font-mono tracking-tighter sm:tracking-normal whitespace-nowrap">198°C - 203°C</span>
+                  </button>
+                  <button onclick="selectRoastProfile('medium')" id="roast-btn-medium" class="seg-item-btn text-left">
+                    <span class="w-2 h-2 rounded-full bg-amber-800 inline-block mb-1"></span>
+                    <span class="block text-[11px] sm:text-xs font-semibold uppercase">Medium</span>
+                    <span class="block text-[9px] sm:text-[10px] opacity-75 font-mono tracking-tighter sm:tracking-normal whitespace-nowrap">206°C - 211°C</span>
+                  </button>
+                  <button onclick="selectRoastProfile('dark')" id="roast-btn-dark" class="seg-item-btn text-left">
+                    <span class="w-2 h-2 rounded-full bg-stone-900 dark:bg-stone-400 inline-block mb-1"></span>
+                    <span class="block text-[11px] sm:text-xs font-semibold uppercase">Med-Dark</span>
+                    <span class="block text-[9px] sm:text-[10px] opacity-75 font-mono tracking-tighter sm:tracking-normal whitespace-nowrap">214°C - 219°C</span>
+                  </button>
+                </div>
+
+                <!-- Dynamic Roast Info Display -->
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between border-b border-[#dfd3c5]/70 dark:border-[#332721] pb-2.5">
+                    <span id="roast-stage-title" class="font-display font-bold text-sm text-stone-900 dark:text-stone-100">Light to Medium (Filter Roast)</span>
+                    <span id="roast-agtron" class="font-mono text-xs font-bold text-espresso-700 dark:text-espresso-400">Agtron #72</span>
+                  </div>
+                  <p id="roast-stage-desc" class="text-xs text-stone-600 dark:text-stone-300 leading-relaxed text-justify">
+                    Dihentikan tepat 45–60 detik setelah First Crack selesai. Mempertahankan senyawa organik buah dan aroma floral tanpa rasa gosong. Sangat ideal untuk seduhan manual tanpa tambahan susu.
+                  </p>
+                  <div class="grid grid-cols-2 divide-x divide-[#c8b6a2] dark:divide-[#3d2e27] pt-3 border-t border-[#dfd3c5]/70 dark:border-[#332721] text-xs">
+                    <div class="pr-4">
+                      <span class="text-stone-500 block uppercase text-[10px] font-bold">Rasio Development (DTR)</span>
+                      <strong id="roast-dtr" class="font-mono text-stone-900 dark:text-stone-100 mt-0.5 block">13.5% - 15.0%</strong>
+                    </div>
+                    <div class="pl-4">
+                      <span class="text-stone-500 block uppercase text-[10px] font-bold">Metode Seduh Terbaik</span>
+                      <strong id="roast-methods" class="text-stone-900 dark:text-stone-100 mt-0.5 block">V60, Kalita, Chemex</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quick Link to Calculator -->
+              <div class="mt-6 pt-4 border-t border-[#dfd3c5]/80 dark:border-[#332721] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
+                <span class="text-xs text-stone-600 dark:text-stone-400">Ingin menyeduh sendiri di rumah?</span>
+                <button onclick="switchPage('seduh')" class="line-action-link primary-line">
+                  <span>Buka Kalkulator Seduh</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Sorotan Kreasi & Navigasi Layanan -->
+      <section class="py-10 sm:py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid lg:grid-cols-12 gap-3.5 sm:gap-6 lg:gap-10 items-end pb-6 mb-10 border-b border-[#dfd3c5]/80 dark:border-[#332721]">
+            <div class="lg:col-span-7">
+              <p class="text-xs font-bold uppercase tracking-[0.2em] text-espresso-700 dark:text-espresso-400 mb-2">Eksplorasi Layanan Kami</p>
+              <h2 class="font-display text-2xl sm:text-3xl font-bold text-stone-900 dark:text-stone-100 tracking-tight">
+                Fasilitas & Pengalaman di Caffein
+              </h2>
+            </div>
+            <div class="lg:col-span-5 lg:border-l lg:border-[#c8b6a2]/70 dark:lg:border-[#332721] lg:pl-6">
+              <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed text-justify">
+                Nikmati perpaduan antara bar espresso modern, meja seduh manual interaktif, serta ruang kolaboratif yang dirancang untuk mendukung produktivitas harian Anda.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-8 items-stretch">
+            <!-- Feature 1: Signature Bar & Patisserie -->
+            <div class="sharp-box sharp-box-hover grid sm:grid-cols-12 overflow-hidden">
+              <div class="sm:col-span-5 bg-stone-200 dark:bg-stone-800 img-zoom-wrap min-h-[180px] sm:min-h-[230px]">
+                <img src="assets/images/espresso-bar.jpg" alt="Kreasi Signature & Artisan Pastry" class="w-full h-full object-cover min-h-[180px] sm:min-h-[230px]" />
+              </div>
+              <div class="sm:col-span-7 p-6 flex flex-col justify-between">
+                <div>
+                  <span class="text-[10px] font-bold uppercase tracking-widest text-espresso-700 dark:text-espresso-400">Espresso Bar & Bakery</span>
+                  <h3 class="font-display font-bold text-xl text-stone-900 dark:text-stone-100 mt-1 mb-2">Kreasi Signature & Artisan Pastry</h3>
+                  <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed text-justify mb-4">
+                    Dari Es Kopi Caffein Aren dengan gula aren organik Lebak hingga French Butter Croissant berlapis renyah yang dipanggang segar setiap pukul 06.30 pagi di dapur kami.
+                  </p>
+                </div>
+                <div class="flex items-center divide-x divide-[#c8b6a2] dark:divide-[#3d2e27] pt-4 border-t border-[#dfd3c5]/80 dark:border-[#332721]">
+                  <div class="pr-4">
+                    <button onclick="switchPage('menu')" class="line-action-link primary-line">
+                      <span>Buka Katalog Menu</span>
+                      <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                  <div class="pl-4">
+                    <button onclick="switchPage('racik')" class="line-action-link">
+                      <span>Racik Sendiri</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Feature 2: Slow Bar Manual Brew -->
+            <div class="sharp-box sharp-box-hover grid sm:grid-cols-12 overflow-hidden">
+              <div class="sm:col-span-5 bg-stone-200 dark:bg-stone-800 img-zoom-wrap min-h-[180px] sm:min-h-[230px]">
+                <img src="assets/images/slow-bar-v60.jpg" alt="Laboratorium Manual Brew & Biji" class="w-full h-full object-cover min-h-[180px] sm:min-h-[230px]" />
+              </div>
+              <div class="sm:col-span-7 p-6 flex flex-col justify-between">
+                <div>
+                  <span class="text-[10px] font-bold uppercase tracking-widest text-espresso-700 dark:text-espresso-400">Slow Bar & Roastery</span>
+                  <h3 class="font-display font-bold text-xl text-stone-900 dark:text-stone-100 mt-1 mb-2">Laboratorium Manual Brew & Biji</h3>
+                  <p class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed text-justify mb-4">
+                    Nikmati pengalaman duduk langsung di hadapan barista kami di meja Slow Bar sembari berdiskusi mengenai profil ekstraksi V60, Kalita Wave, dan karakter single origin.
+                  </p>
+                </div>
+                <div class="flex items-center divide-x divide-[#c8b6a2] dark:divide-[#3d2e27] pt-4 border-t border-[#dfd3c5]/80 dark:border-[#332721]">
+                  <div class="pr-4">
+                    <button onclick="switchPage('biji')" class="line-action-link primary-line">
+                      <span>Eksplorasi Biji</span>
+                      <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                  <div class="pl-4">
+                    <button onclick="switchPage('seduh')" class="line-action-link">
+                      <span>Kalkulator Seduh</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ==========================================
+         HALAMAN 2: KATALOG MENU
+         ========================================== -->
+    <div id="page-menu" class="page-section py-12 sm:py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid lg:grid-cols-12 gap-3.5 sm:gap-6 lg:gap-10 items-end mb-8 pb-6 border-b border-[#dfd3c5]/80 dark:border-[#332721]">
+          <div class="lg:col-span-7">
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-espresso-700 dark:text-espresso-400 mb-2">Halaman Katalog Menu</p>
+            <h1 class="font-display text-3xl sm:text-4xl font-bold text-stone-900 dark:text-stone-50 tracking-tight">
+              Kurasi Minuman & Artisan Pastry
+            </h1>
+          </div>
+          <div class="lg:col-span-5 lg:border-l lg:border-[#c8b6a2]/70 dark:lg:border-[#332721] lg:pl-6">
+            <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed text-justify">
+              Setiap minuman disajikan menggunakan biji kopi yang baru disangrai dan dapat dikustomisasi suhu, ukuran gelas, serta takaran manisnya sebelum dimasukkan ke keranjang pesanan.
+            </p>
+          </div>
+        </div>
+
+        <!-- Filter, Search & Sort Controls -->
+        <div class="sharp-box p-4 sm:p-6 mb-8 sm:mb-10 space-y-4 sm:space-y-5">
+          <div class="flex items-center gap-x-5 sm:gap-x-7 gap-y-2 border-b border-[#dfd3c5]/80 dark:border-[#332721] overflow-x-auto no-scrollbar sm:flex-wrap" id="category-tabs">
+            <button onclick="setCategory('all')" data-cat="all" class="cat-btn cat-line-tab active">Semua Menu</button>
+            <button onclick="setCategory('signature')" data-cat="signature" class="cat-btn cat-line-tab">Signature</button>
+            <button onclick="setCategory('manual')" data-cat="manual" class="cat-btn cat-line-tab">Manual Brew</button>
+            <button onclick="setCategory('espresso')" data-cat="espresso" class="cat-btn cat-line-tab">Espresso Base</button>
+            <button onclick="setCategory('noncoffee')" data-cat="noncoffee" class="cat-btn cat-line-tab">Non-Kopi</button>
+            <button onclick="setCategory('pastry')" data-cat="pastry" class="cat-btn cat-line-tab">Pastry & Kudapan</button>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-1">
+            <div class="relative flex-1 max-w-md">
+              <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+              <input
+                type="text"
+                id="menu-search"
+                oninput="renderMenu()"
+                placeholder="Cari nama kopi, tasting notes, atau pastry..."
+                class="w-full pl-10 pr-4 py-2.5 bg-white/60 dark:bg-[#14100d]/70 border border-[#c8b6a2] dark:border-[#3d2e27] text-xs focus:outline-none focus:border-espresso-700 text-stone-900 dark:text-stone-100"
+              />
+            </div>
+            <div class="flex items-center justify-between sm:justify-start gap-3 w-full sm:w-auto">
+              <span class="text-xs text-stone-500 dark:text-stone-400 font-medium whitespace-nowrap">Urutkan:</span>
+              <select
+                id="menu-sort"
+                onchange="renderMenu()"
+                aria-label="Urutkan Menu"
+                class="flex-1 sm:flex-initial px-3.5 sm:px-4 py-2.5 bg-white/60 dark:bg-[#14100d]/70 border border-[#c8b6a2] dark:border-[#3d2e27] text-xs font-semibold text-stone-800 dark:text-stone-200 focus:outline-none focus:border-espresso-700"
+              >
+                <option value="popular">Paling Populer</option>
+                <option value="price-asc">Harga: Terendah ke Tertinggi</option>
+                <option value="price-desc">Harga: Tertinggi ke Terendah</option>
+                <option value="cal-asc">Kalori: Paling Rendah</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Menu Grid Container -->
+        <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="menu-empty" class="hidden text-center py-16 sharp-box">
+          <i data-lucide="coffee" class="w-8 h-8 text-stone-400 mx-auto mb-3"></i>
+          <h3 class="font-display font-bold text-lg text-stone-800 dark:text-stone-200">Menu Tidak Ditemukan</h3>
+          <p class="text-xs text-stone-500 dark:text-stone-400 mt-1 mb-4">Coba kata kunci lain atau tampilkan kembali seluruh kategori.</p>
+          <button onclick="resetMenuFilters()" class="line-action-link primary-line mx-auto">Reset Filter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         HALAMAN 3: RACIK KOPI KUSTOM (TERSTRUKTUR RAPI DENGAN GARIS SEGMEN SERAGAM)
+         ========================================== -->
+    <div id="page-racik" class="page-section py-12 sm:py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Structured Section Header (Foto 4 Lingkaran Merah Diperbaiki & Justify) -->
+        <div class="grid lg:grid-cols-12 gap-3.5 sm:gap-6 lg:gap-10 items-end mb-10 pb-6 border-b border-[#dfd3c5]/80 dark:border-[#332721]">
+          <div class="lg:col-span-7">
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-espresso-700 dark:text-espresso-400 mb-2">Halaman Kustomisasi Barista</p>
+            <h1 class="font-display text-3xl sm:text-4xl font-bold text-stone-900 dark:text-stone-50 tracking-tight">
+              Simulator Racik Kopi Personal
+            </h1>
+          </div>
+          <div class="lg:col-span-5 lg:border-l lg:border-[#c8b6a2]/70 dark:lg:border-[#332721] lg:pl-6">
+            <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed text-justify">
+              Rancang komposisi minuman Anda secara presisi mulai dari suhu penyajian, basis biji espresso, jenis susu, hingga takaran pemanis alami. Estimasi nutrisi dan harga dihitung otomatis.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+          <!-- Left: Structured Segmented Controls (Foto 4 Lingkaran Ungu Diperbaiki Menjadi Baris Segmen Rapi) -->
+          <div class="lg:col-span-7 sharp-box p-6 sm:p-8 flex flex-col justify-between divide-y divide-[#dfd3c5]/80 dark:divide-[#332721]">
+            
+            <!-- Row 1: Step 1 & Step 2 in Equal Segmented Bars -->
+            <div class="grid sm:grid-cols-2 gap-6 pb-5">
+              <div>
+                <div class="flex items-center justify-between mb-2.5">
+                  <label class="text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-stone-300">01. Suhu Penyajian</label>
+                  <span class="text-[10px] font-mono text-stone-400">Cup 14oz</span>
+                </div>
+                <div class="grid grid-cols-2 divide-x divide-[#c8b6a2] dark:divide-[#3d2e27] seg-control-grid" id="cb-temp-group">
+                  <button type="button" onclick="updateCustomDrink('temp', 'Iced')" data-val="Iced" class="cb-opt-btn seg-item-btn active text-center">
+                    Dingin (Iced)
+                  </button>
+                  <button type="button" onclick="updateCustomDrink('temp', 'Hot')" data-val="Hot" class="cb-opt-btn seg-item-btn text-center">
+                    Panas (Hot)
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex items-center justify-between mb-2.5">
+                  <label class="text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-stone-300">02. Basis Biji Espresso</label>
+                  <span class="text-[10px] font-mono text-espresso-700 dark:text-espresso-400">100% Arabica</span>
+                </div>
+                <div class="grid grid-cols-2 divide-x divide-[#c8b6a2] dark:divide-[#3d2e27] seg-control-grid" id="cb-bean-group">
+                  <button type="button" onclick="updateCustomDrink('bean', 'House Blend Caffein', 0)" data-val="House Blend Caffein" class="cb-opt-btn seg-item-btn active text-center">
+                    House Blend (+Rp 0)
+                  </button>
+                  <button type="button" onclick="updateCustomDrink('bean', 'Single Origin Flores', 6000)" data-val="Single Origin Flores" class="cb-opt-btn seg-item-btn text-center">
+                    SO Flores (+6rb)
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 2: Step 3 Espresso Shots (Unified 3-Segment Bar) -->
+            <div class="py-5">
+              <div class="flex justify-between items-center mb-2.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-stone-300">03. Takaran Espresso Shot</label>
+                <span class="text-xs font-mono text-espresso-700 dark:text-espresso-400 font-semibold" id="cb-shot-label">2 Shot (170 mg Kafein)</span>
+              </div>
+              <div class="grid grid-cols-3 divide-x divide-[#c8b6a2] dark:divide-[#3d2e27] seg-control-grid" id="cb-shots-group">
+                <button type="button" onclick="updateCustomDrink('shots', 1)" data-val="1" class="cb-opt-btn seg-item-btn text-center">
+                  Single (1 Shot)
+                </button>
+                <button type="button" onclick="updateCustomDrink('shots', 2)" data-val="2" class="cb-opt-btn seg-item-btn active text-center">
+                  Double (2 Shots)
+                </button>
+                <button type="button" onclick="updateCustomDrink('shots', 3)" data-val="3" class="cb-opt-btn seg-item-btn text-center">
+                  Triple (+Rp 6rb)
+                </button>
+              </div>
+            </div>
+
+            <!-- Row 3: Step 4 Milk Selection (Unified 4-Column Divided Grid) -->
+            <div class="py-5">
+              <div class="flex justify-between items-center mb-2.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-stone-300">04. Pilihan Susu / Campuran</label>
+                <span class="text-[10px] font-mono text-stone-500">Dairy & Plant-Based</span>
+              </div>
+              <div class="grid grid-cols-2 sm:grid-cols-4 sm:divide-x divide-[#c8b6a2] dark:divide-[#3d2e27] seg-control-grid seg-grid-2x2" id="cb-milk-group">
+                <button type="button" onclick="updateCustomDrink('milk', 'Fresh Milk', 0, 110)" data-val="Fresh Milk" class="cb-opt-btn seg-item-btn active text-left">
+                  <span class="block text-xs font-bold">Fresh Milk</span>
+                  <span class="block text-[10px] opacity-75 font-mono mt-0.5">Standar &bull; 110 kkal</span>
+                </button>
+                <button type="button" onclick="updateCustomDrink('milk', 'Oat Milk', 8000, 95)" data-val="Oat Milk" class="cb-opt-btn seg-item-btn text-left">
+                  <span class="block text-xs font-bold">Oat Milk</span>
+                  <span class="block text-[10px] opacity-75 font-mono mt-0.5">+Rp 8rb &bull; 95 kkal</span>
+                </button>
+                <button type="button" onclick="updateCustomDrink('milk', 'Soy Milk', 6000, 80)" data-val="Soy Milk" class="cb-opt-btn seg-item-btn text-left">
+                  <span class="block text-xs font-bold">Soy Milk</span>
+                  <span class="block text-[10px] opacity-75 font-mono mt-0.5">+Rp 6rb &bull; 80 kkal</span>
+                </button>
+                <button type="button" onclick="updateCustomDrink('milk', 'Tanpa Susu', -3000, 5)" data-val="Tanpa Susu" class="cb-opt-btn seg-item-btn text-left">
+                  <span class="block text-xs font-bold">Tanpa Susu</span>
+                  <span class="block text-[10px] opacity-75 font-mono mt-0.5">-Rp 3rb &bull; 5 kkal</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Row 4: Step 5 & Step 6 Sweetener & Sweetness Level -->
+            <div class="py-5 grid sm:grid-cols-2 gap-6 items-center">
+              <div>
+                <label for="cb-syrup" class="block text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-stone-300 mb-2.5">05. Pemanis / Sirup</label>
+                <select id="cb-syrup" onchange="updateCustomDrinkFromSelect()" class="w-full px-3.5 py-2.5 bg-white/70 dark:bg-[#14100d] border border-[#c8b6a2] dark:border-[#3d2e27] text-xs font-semibold text-stone-800 dark:text-stone-100 focus:outline-none focus:border-espresso-700">
+                  <option value="Gula Aren Organik|0|45">Gula Aren Organik (+Rp 0)</option>
+                  <option value="Madagascar Vanilla|5000|50">Madagascar Vanilla (+Rp 5.000)</option>
+                  <option value="Salted Caramel|5000|55">Salted Caramel (+Rp 5.000)</option>
+                  <option value="Roasted Hazelnut|5000|50">Roasted Hazelnut (+Rp 5.000)</option>
+                  <option value="Madu Hutan Flores|6000|40">Madu Hutan Flores (+Rp 6.000)</option>
+                  <option value="Tanpa Pemanis|0|0">Tanpa Pemanis (0 kkal)</option>
+                </select>
+              </div>
+
+              <div>
+                <div class="flex justify-between items-center mb-2">
+                  <label for="cb-sweetness" class="text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-stone-300">06. Tingkat Kemanisan</label>
+                  <span id="cb-sweet-val" class="text-xs font-mono font-bold text-espresso-700 dark:text-espresso-400">100% Manis</span>
+                </div>
+                <input type="range" id="cb-sweetness" min="0" max="125" step="25" value="100" oninput="updateCustomDrinkFromSelect()" class="w-full mt-1" />
+                <div class="flex justify-between text-[10px] font-mono text-stone-400 mt-1">
+                  <span>0%</span>
+                  <span>25%</span>
+                  <span>50%</span>
+                  <span>75%</span>
+                  <span>100%</span>
+                  <span>125%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 5: Step 7 Topping (Unified 3-Column Equal Grid) -->
+            <div class="pt-5">
+              <div class="flex items-center justify-between mb-2.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-stone-300">07. Tambahan Topping (Opsional)</label>
+                <span class="text-[10px] font-mono text-stone-500">Bisa pilih lebih dari satu</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#c8b6a2] dark:divide-[#3d2e27] seg-control-grid">
+                <label class="cursor-pointer flex items-center justify-between px-3.5 py-3 text-xs font-semibold text-stone-700 dark:text-stone-300 hover:bg-espresso-700/5 select-none">
+                  <div class="flex items-center gap-2">
+                    <input type="checkbox" class="cb-topping accent-espresso-700" value="Sea Salt Cream|6000|65" onchange="updateCustomDrinkFromSelect()" />
+                    <span>Sea Salt Cream</span>
+                  </div>
+                  <span class="font-mono text-[10px] text-espresso-700 dark:text-espresso-400">+6rb</span>
+                </label>
+                <label class="cursor-pointer flex items-center justify-between px-3.5 py-3 text-xs font-semibold text-stone-700 dark:text-stone-300 hover:bg-espresso-700/5 select-none">
+                  <div class="flex items-center gap-2">
+                    <input type="checkbox" class="cb-topping accent-espresso-700" value="Espresso Jelly|5000|30" onchange="updateCustomDrinkFromSelect()" />
+                    <span>Espresso Jelly</span>
+                  </div>
+                  <span class="font-mono text-[10px] text-espresso-700 dark:text-espresso-400">+5rb</span>
+                </label>
+                <label class="cursor-pointer flex items-center justify-between px-3.5 py-3 text-xs font-semibold text-stone-700 dark:text-stone-300 hover:bg-espresso-700/5 select-none">
+                  <div class="flex items-center gap-2">
+                    <input type="checkbox" class="cb-topping accent-espresso-700" value="Cinnamon Dust|2000|5" onchange="updateCustomDrinkFromSelect()" />
+                    <span>Taburan Kayu Manis (+Rp 2rb)</span>
+                  </div>
+                  <span class="font-mono text-[10px] text-espresso-700 dark:text-espresso-400">+2rb</span>
+                </label>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right: Live Visualizer & Summary Card (5 Cols, Sejajar Atas & Bawah) -->
+          <div class="lg:col-span-5 sharp-box p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <div class="flex items-start sm:items-center justify-between gap-2 border-b border-[#dfd3c5]/80 dark:border-[#332721] pb-4 mb-6">
+                <div class="min-w-0">
+                  <span class="text-[10px] uppercase tracking-widest text-espresso-700 dark:text-espresso-400 font-bold block">Pratinjau Komposisi Gelas</span>
+                  <h3 class="font-display text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 mt-0.5 leading-snug" id="cb-preview-title">Iced 2x Shot — Gula Aren Organik</h3>
+                </div>
+                <span class="font-mono text-xs font-bold text-espresso-700 dark:text-espresso-400 shrink-0 pt-0.5 sm:pt-0" id="cb-preview-temp">ICED 14oz</span>
+              </div>
+
+              <!-- Animated Cup Stack Visualizer -->
+              <div class="flex items-center justify-center py-5">
+                <div class="relative w-44 h-56 border-2 border-stone-700 dark:border-stone-500 rounded-b-xl overflow-hidden flex flex-col-reverse bg-stone-900/90 p-1">
+                  <div id="cup-layer-syrup" class="w-full transition-all duration-500 bg-amber-900/90 flex items-center justify-center text-[10px] font-semibold text-amber-100" style="height: 15%;">
+                    Pemanis
+                  </div>
+                  <div id="cup-layer-espresso" class="w-full transition-all duration-500 bg-espresso-800 flex items-center justify-center text-[10px] font-semibold text-white" style="height: 30%;">
+                    2x Espresso
+                  </div>
+                  <div id="cup-layer-milk" class="w-full transition-all duration-500 bg-stone-200 text-stone-900 flex items-center justify-center text-[10px] font-semibold" style="height: 45%;">
+                    Fresh Milk
+                  </div>
+                  <div id="cup-layer-topping" class="w-full transition-all duration-500 bg-amber-200 text-stone-900 flex items-center justify-center text-[9px] font-bold overflow-hidden" style="height: 0%;">
+                    Topping
+                  </div>
+                </div>
+              </div>
+
+              <!-- Nutrition & Specs Breakdown -->
+              <div class="grid grid-cols-3 divide-x divide-[#c8b6a2] dark:divide-[#332721] my-6 py-3.5 border-y border-[#dfd3c5]/80 dark:border-[#332721] text-center">
+                <div class="px-2">
+                  <span class="text-[10px] text-stone-500 uppercase block">Kafein</span>
+                  <span id="cb-stat-caffeine" class="font-display font-bold text-sm text-espresso-700 dark:text-amber-400">170 mg</span>
+                </div>
+                <div class="px-2">
+                  <span class="text-[10px] text-stone-500 uppercase block">Estimasi Kalori</span>
+                  <span id="cb-stat-cal" class="font-display font-bold text-sm text-emerald-700 dark:text-emerald-400">155 kkal</span>
+                </div>
+                <div class="px-2">
+                  <span class="text-[10px] text-stone-500 uppercase block">Basis Biji</span>
+                  <span id="cb-stat-bean" class="font-display font-bold text-xs text-stone-800 dark:text-stone-200 truncate block">House Blend</span>
+                </div>
+              </div>
+
+              <div class="text-xs text-stone-600 dark:text-stone-300 space-y-1.5 pl-4 border-l-2 border-espresso-700">
+                <p class="font-semibold text-stone-900 dark:text-stone-100">Catatan Resep Barista:</p>
+                <p id="cb-recipe-summary" class="text-justify leading-relaxed">Dingin (Iced) dengan 2 Shot House Blend Caffein, dipadukan bersama Fresh Milk dan Gula Aren Organik pada tingkat kemanisan 100%.</p>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-5 border-t border-[#dfd3c5]/80 dark:border-[#332721] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3.5 sm:gap-4">
+              <div class="flex sm:block items-baseline justify-between">
+                <span class="text-[10px] text-stone-500 uppercase block">Total Harga Racikan</span>
+                <span id="cb-total-price" class="font-display text-2xl font-extrabold text-stone-900 dark:text-white">Rp 32.000</span>
+              </div>
+              <button onclick="addCustomDrinkToCart()" class="btn-click-anim px-5 py-3.5 sm:py-3 bg-stone-900 dark:bg-espresso-600 hover:bg-espresso-800 text-white font-semibold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>Masukkan Keranjang</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         HALAMAN 4: BIJI KOPI NUSANTARA
+         ========================================== -->
+    <div id="page-biji" class="page-section py-12 sm:py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid lg:grid-cols-12 gap-3.5 sm:gap-6 lg:gap-10 items-end mb-10 pb-6 border-b border-[#dfd3c5]/80 dark:border-[#332721]">
+          <div class="lg:col-span-7">
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-espresso-700 dark:text-espresso-400 mb-2">Halaman Single Origin Roastery</p>
+            <h1 class="font-display text-3xl sm:text-4xl font-bold text-stone-900 dark:text-stone-50 tracking-tight">
+              Eksplorasi Biji Kopi Nusantara
+            </h1>
+          </div>
+          <div class="lg:col-span-5 lg:border-l lg:border-[#c8b6a2]/70 dark:lg:border-[#332721] lg:pl-6">
+            <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed text-justify">
+              Pilih daerah asal biji kopi untuk memeriksa spesifikasi teknis kebun, profil rasa hasil sangrai, serta memesan kemasan biji sangrai segar ukuran 200 gram.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+          <!-- Origin Selector List (5 Cols) -->
+          <div class="lg:col-span-5 flex flex-col justify-between gap-3" id="origin-list">
+            <!-- Populated via JS -->
+          </div>
+
+          <!-- Origin Detailed Spec Card (7 Cols) -->
+          <div class="lg:col-span-7 sharp-box p-6 sm:p-8 flex flex-col justify-between" id="origin-detail-card">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         HALAMAN 5: KALKULATOR RASIO SEDUH & LIVE BREW TIMER
+         ========================================== -->
+    <div id="page-seduh" class="page-section py-12 sm:py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid lg:grid-cols-12 gap-3.5 sm:gap-6 lg:gap-10 items-end mb-10 pb-6 border-b border-[#dfd3c5]/80 dark:border-[#332721]">
+          <div class="lg:col-span-7">
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-espresso-700 dark:text-espresso-400 mb-2">Halaman Panduan Barista Rumahan</p>
+            <h1 class="font-display text-3xl sm:text-4xl font-bold text-stone-900 dark:text-stone-50 tracking-tight">
+              Kalkulator Rasio & Stopwatch Seduh Interaktif
+            </h1>
+          </div>
+          <div class="lg:col-span-5 lg:border-l lg:border-[#c8b6a2]/70 dark:lg:border-[#332721] lg:pl-6">
+            <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed text-justify">
+              Sesuaikan gramasi kopi dan rasio air di bawah ini, lalu jalankan Stopwatch Seduh Live untuk memandu tahapan tuangan air secara presisi dari blooming hingga selesai.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+          <!-- Brew Controls -->
+          <div class="lg:col-span-5 sharp-box p-6 sm:p-8 flex flex-col justify-between space-y-6">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-stone-300 mb-2.5">01. Pilih Metode Alat Seduh</label>
+              <div class="grid grid-cols-2 seg-control-grid seg-grid-2x2-always" id="brew-method-btns">
+                <button onclick="setBrewMethod('v60')" data-method="v60" class="brew-btn seg-item-btn active text-center">Hario V60</button>
+                <button onclick="setBrewMethod('frenchpress')" data-method="frenchpress" class="brew-btn seg-item-btn text-center">French Press</button>
+                <button onclick="setBrewMethod('aeropress')" data-method="aeropress" class="brew-btn seg-item-btn text-center">AeroPress</button>
+                <button onclick="setBrewMethod('tubruk')" data-method="tubruk" class="brew-btn seg-item-btn text-center">Tubruk Spesialti</button>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-2">
+                <span class="font-semibold text-stone-600 dark:text-stone-300">02. Dosis Biji Kopi (Gram)</span>
+                <span id="brew-dose-val" class="font-bold text-espresso-700 dark:text-espresso-400 font-mono">15 gram</span>
+              </div>
+              <input type="range" id="brew-dose" min="10" max="30" step="1" value="15" oninput="calculateBrew()" class="w-full" />
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-2">
+                <span class="font-semibold text-stone-600 dark:text-stone-300">03. Rasio Kopi : Air</span>
+                <span id="brew-ratio-val" class="font-bold text-espresso-700 dark:text-espresso-400 font-mono">1 : 15</span>
+              </div>
+              <input type="range" id="brew-ratio" min="12" max="18" step="1" value="15" oninput="calculateBrew()" class="w-full" />
+            </div>
+
+            <!-- Interactive Live Brew Timer Control Box -->
+            <div class="pt-4 border-t border-[#dfd3c5]/80 dark:border-[#332721]">
+              <div class="flex items-center justify-between mb-3">
+                <div>
+                  <span class="text-[10px] font-bold uppercase tracking-widest text-espresso-700 dark:text-espresso-400 block">Stopwatch Barista Real-Time</span>
+                  <span id="brew-timer-stage" class="text-xs text-stone-600 dark:text-stone-400">Siap memulai ekstraksi</span>
+                </div>
+                <span id="brew-timer-display" class="font-mono text-2xl font-extrabold text-stone-900 dark:text-stone-100">00:00</span>
+              </div>
+              <div class="grid grid-cols-2 divide-x divide-[#c8b6a2] dark:divide-[#3d2e27] border border-[#c8b6a2] dark:border-[#3d2e27]">
+                <button onclick="toggleBrewTimer()" id="brew-timer-btn" class="btn-click-anim py-2.5 px-4 bg-stone-900 dark:bg-espresso-600 hover:bg-espresso-700 text-white text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors">
+                  <i data-lucide="play" class="w-3.5 h-3.5"></i>
+                  <span id="brew-timer-btn-text">Mulai Seduh</span>
+                </button>
+                <button onclick="resetBrewTimer()" class="btn-click-anim py-2.5 px-4 bg-white/50 dark:bg-[#18120f] text-stone-700 dark:text-stone-300 text-xs font-semibold uppercase tracking-wider hover:bg-stone-200/50 transition-colors">
+                  Reset Waktu
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Brew Output & Pouring Schedule -->
+          <div class="lg:col-span-7 sharp-box p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <div class="grid grid-cols-2 sm:grid-cols-4 sm:divide-x divide-[#c8b6a2] dark:divide-[#332721] spec-grid-2x2 pb-5 sm:pb-6 mb-6 border-b border-[#dfd3c5]/80 dark:border-[#332721]">
+                <div class="p-3 sm:p-0 sm:pr-4">
+                  <span class="text-[10px] text-stone-500 uppercase block">Total Air Seduh</span>
+                  <span id="brew-water-out" class="font-display font-extrabold text-xl text-stone-900 dark:text-stone-100">225 ml</span>
+                </div>
+                <div class="p-3 sm:p-0 sm:px-4">
+                  <span class="text-[10px] text-stone-500 uppercase block">Suhu Air Ideal</span>
+                  <span id="brew-temp-out" class="font-display font-extrabold text-xl text-espresso-700 dark:text-espresso-400">92°C</span>
+                </div>
+                <div class="p-3 sm:p-0 sm:px-4">
+                  <span class="text-[10px] text-stone-500 uppercase block">Ukuran Gilingan</span>
+                  <span id="brew-grind-out" class="font-display font-bold text-sm text-stone-900 dark:text-stone-100 mt-1 block">Medium-Fine</span>
+                </div>
+                <div class="p-3 sm:p-0 sm:pl-4">
+                  <span class="text-[10px] text-stone-500 uppercase block">Estimasi Durasi</span>
+                  <span id="brew-time-out" class="font-display font-bold text-sm text-stone-900 dark:text-stone-100 mt-1 block">02:15 - 02:30</span>
+                </div>
+              </div>
+
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-3">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-stone-300">Tahapan Tuangan Air (Pouring Steps)</h4>
+                <span class="text-[11px] text-espresso-700 dark:text-espresso-400 font-medium">Tahap aktif menyala saat stopwatch berjalan</span>
+              </div>
+              <div id="brew-steps-list" class="space-y-3 text-xs">
+                <!-- Populated via JS -->
+              </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-[#dfd3c5]/80 dark:border-[#332721] text-xs text-stone-600 dark:text-stone-400 text-justify">
+              <strong>Catatan Kalibrasi Barista:</strong> Gunakan air mineral dengan tingkat TDS 85–95 ppm dan bilas kertas filter menggunakan air panas sebelum memasukkan bubuk kopi agar bebas dari aroma kertas.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         HALAMAN 6: RESERVASI RUANG & SIMULATOR LOYALITAS
+         ========================================== -->
+    <div id="page-reservasi" class="page-section py-12 sm:py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+        
+        <div>
+          <div class="grid lg:grid-cols-12 gap-3.5 sm:gap-6 lg:gap-10 items-end mb-10 pb-6 border-b border-[#dfd3c5]/80 dark:border-[#332721]">
+            <div class="lg:col-span-7">
+              <p class="text-xs font-bold uppercase tracking-[0.2em] text-espresso-700 dark:text-espresso-400 mb-2">Halaman Reservasi Tempat</p>
+              <h1 class="font-display text-3xl sm:text-4xl font-bold text-stone-900 dark:text-stone-50 tracking-tight">
+                Pilih Zona Meja & Jadwal Kunjungan
+              </h1>
+            </div>
+            <div class="lg:col-span-5 lg:border-l lg:border-[#c8b6a2]/70 dark:lg:border-[#332721] lg:pl-6">
+              <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed text-justify">
+                Pilih denah zona ruang kerja atau meja seduh di sisi kiri, lengkapi waktu kedatangan Anda, dan dapatkan kode konfirmasi booking instan tanpa biaya tambahan.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+            <!-- Left: Interactive Floor Plan (5 Cols) -->
+            <div class="lg:col-span-5 sharp-box p-6 flex flex-col justify-between">
+              <div class="flex items-center justify-between mb-4 pb-3 border-b border-[#dfd3c5]/80 dark:border-[#332721]">
+                <h3 class="font-display font-bold text-base text-stone-900 dark:text-stone-100">Denah Zona Caffein</h3>
+                <span class="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">Klik Zona untuk Memilih</span>
+              </div>
+
+              <div class="divide-y divide-[#dfd3c5]/80 dark:divide-[#332721] border border-[#c8b6a2] dark:border-[#3d2e27]" id="zone-selector-cards">
+                <div onclick="selectZone('Zona A: Indoor Work & Study')" data-zone="Zona A: Indoor Work & Study" class="zone-card cursor-pointer p-4 border-l-4 border-l-espresso-700 bg-white/60 dark:bg-[#241c18] transition-all">
+                  <div class="flex flex-wrap items-start justify-between gap-1.5">
+                    <span class="font-display font-bold text-sm text-stone-900 dark:text-stone-100">Zona A: Indoor Work & Study</span>
+                    <span class="text-[10px] font-bold uppercase text-emerald-700 dark:text-emerald-400 shrink-0">Tersedia 6 Meja</span>
+                  </div>
+                  <p class="text-xs text-stone-600 dark:text-stone-400 mt-1 text-justify">Meja ergonomis luas dengan stopkontak di setiap kursi, lampu baca hangat, dan ruangan bebas asap rokok ber-AC.</p>
+                </div>
+
+                <div onclick="selectZone('Zona B: Slow Bar Sensory Counter')" data-zone="Zona B: Slow Bar Sensory Counter" class="zone-card cursor-pointer p-4 border-l-4 border-l-transparent hover:bg-white/40 dark:hover:bg-[#1f1814] transition-all">
+                  <div class="flex flex-wrap items-start justify-between gap-1.5">
+                    <span class="font-display font-bold text-sm text-stone-900 dark:text-stone-100">Zona B: Slow Bar Sensory Counter</span>
+                    <span class="text-[10px] font-bold uppercase text-amber-700 dark:text-amber-400 shrink-0">Sisa 3 Kursi</span>
+                  </div>
+                  <p class="text-xs text-stone-600 dark:text-stone-400 mt-1 text-justify">Duduk tepat di hadapan bar seduh manual untuk menyaksikan proses ekstraksi V60 dan berdiskusi langsung bersama barista.</p>
+                </div>
+
+                <div onclick="selectZone('Zona C: Semi-Outdoor Caffein Garden')" data-zone="Zona C: Semi-Outdoor Caffein Garden" class="zone-card cursor-pointer p-4 border-l-4 border-l-transparent hover:bg-white/40 dark:hover:bg-[#1f1814] transition-all">
+                  <div class="flex flex-wrap items-start justify-between gap-1.5">
+                    <span class="font-display font-bold text-sm text-stone-900 dark:text-stone-100">Zona C: Semi-Outdoor Caffein Garden</span>
+                    <span class="text-[10px] font-bold uppercase text-emerald-700 dark:text-emerald-400 shrink-0">Tersedia 8 Meja</span>
+                  </div>
+                  <p class="text-xs text-stone-600 dark:text-stone-400 mt-1 text-justify">Teras teduh dengan tanaman tropis dan sirkulasi udara alami yang sejuk, sangat cocok untuk diskusi santai sore hari.</p>
+                </div>
+
+                <div onclick="selectZone('Zona D: Private Meeting Room')" data-zone="Zona D: Private Meeting Room" class="zone-card cursor-pointer p-4 border-l-4 border-l-transparent hover:bg-white/40 dark:hover:bg-[#1f1814] transition-all">
+                  <div class="flex flex-wrap items-start justify-between gap-1.5">
+                    <span class="font-display font-bold text-sm text-stone-900 dark:text-stone-100">Zona D: Private Meeting Room</span>
+                    <span class="text-[10px] font-bold uppercase text-stone-600 dark:text-stone-400 shrink-0">1 Ruangan</span>
+                  </div>
+                  <p class="text-xs text-stone-600 dark:text-stone-400 mt-1 text-justify">Ruang rapat kedap suara dilengkapi Smart TV HDMI 55 inci, papan tulis kaca, serta layanan penyajian khusus ke meja.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Booking Form (7 Cols) -->
+            <div class="lg:col-span-7 sharp-box p-6 sm:p-8 flex flex-col justify-between">
+              <form id="reservation-form" onsubmit="submitReservation(event)" class="space-y-5">
+                <div class="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label for="res-name" class="block text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5">Nama Lengkap Pemesan</label>
+                    <input type="text" id="res-name" required placeholder="Contoh: Nadia Pratama" class="w-full px-3.5 py-2.5 bg-white/60 dark:bg-[#14100d] border border-[#c8b6a2] dark:border-[#332721] text-xs text-stone-900 dark:text-stone-100 focus:outline-none focus:border-espresso-600" />
+                  </div>
+                  <div>
+                    <label for="res-phone" class="block text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5">Nomor WhatsApp Aktif</label>
+                    <input type="tel" id="res-phone" required placeholder="0812-xxxx-xxxx" class="w-full px-3.5 py-2.5 bg-white/60 dark:bg-[#14100d] border border-[#c8b6a2] dark:border-[#332721] text-xs text-stone-900 dark:text-stone-100 focus:outline-none focus:border-espresso-600" />
+                  </div>
+                </div>
+
+                <div class="grid sm:grid-cols-3 gap-4">
+                  <div>
+                    <label for="res-date" class="block text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5">Tanggal Kunjungan</label>
+                    <input type="date" id="res-date" required class="w-full px-3.5 py-2.5 bg-white/60 dark:bg-[#14100d] border border-[#c8b6a2] dark:border-[#332721] text-xs text-stone-900 dark:text-stone-100 focus:outline-none focus:border-espresso-600" />
+                  </div>
+                  <div>
+                    <label for="res-time" class="block text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5">Waktu Kedatangan</label>
+                    <select id="res-time" class="w-full px-3.5 py-2.5 bg-white/60 dark:bg-[#14100d] border border-[#c8b6a2] dark:border-[#332721] text-xs text-stone-900 dark:text-stone-100 focus:outline-none focus:border-espresso-600">
+                      <option value="09:00 WIB">09:00 WIB (Pagi Produktif)</option>
+                      <option value="13:00 WIB">13:00 WIB (Makan Siang & Diskusi)</option>
+                      <option value="16:30 WIB" selected>16:30 WIB (Sesi Senja)</option>
+                      <option value="19:30 WIB">19:30 WIB (Malam Santai)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="res-guests" class="block text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5">Jumlah Tamu</label>
+                    <select id="res-guests" class="w-full px-3.5 py-2.5 bg-white/60 dark:bg-[#14100d] border border-[#c8b6a2] dark:border-[#332721] text-xs text-stone-900 dark:text-stone-100 focus:outline-none focus:border-espresso-600">
+                      <option value="1 Orang">1 Orang (Solo Focus)</option>
+                      <option value="2 Orang" selected>2 Orang</option>
+                      <option value="3 - 4 Orang">3 - 4 Orang</option>
+                      <option value="5 - 8 Orang">5 - 8 Orang (Tim / Grup)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label for="res-zone-input" class="block text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5">Zona Pilihan Anda</label>
+                  <input type="text" id="res-zone-input" readonly value="Zona A: Indoor Work & Study" class="w-full px-3.5 py-2.5 bg-white/40 dark:bg-[#241c18] border border-[#c8b6a2] dark:border-[#332721] text-xs font-semibold text-espresso-800 dark:text-espresso-300" />
+                </div>
+
+                <div>
+                  <label for="res-notes" class="block text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5">Permintaan Khusus (Opsional)</label>
+                  <input type="text" id="res-notes" placeholder="Contoh: Butuh meja dekat stopkontak atau kursi tambahan" class="w-full px-3.5 py-2.5 bg-white/60 dark:bg-[#14100d] border border-[#c8b6a2] dark:border-[#332721] text-xs text-stone-900 dark:text-stone-100 focus:outline-none focus:border-espresso-600" />
+                </div>
+
+                <button type="submit" class="btn-click-anim w-full py-3.5 bg-stone-900 dark:bg-espresso-600 hover:bg-espresso-800 dark:hover:bg-espresso-500 text-white font-semibold text-xs uppercase tracking-wider transition-all">
+                  Konfirmasi Reservasi Meja
+                </button>
+              </form>
+
+              <!-- Instant Booking Receipt -->
+              <div id="res-receipt" class="hidden mt-6 p-5 bg-emerald-950/10 dark:bg-emerald-950/30 border-l-2 border-l-emerald-600 border border-emerald-700/30 text-xs space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300">Bukti Reservasi Terkonfirmasi</span>
+                  <span id="res-code" class="font-mono font-bold text-stone-900 dark:text-white">SNJ-8821</span>
+                </div>
+                <p id="res-summary-text" class="text-stone-700 dark:text-stone-300 leading-relaxed text-justify"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loyalty & Membership Calculator -->
+        <div class="pt-10 border-t border-[#dfd3c5]/80 dark:border-[#332721]">
+          <div class="sharp-box p-6 sm:p-10 grid lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-6 space-y-3">
+              <span class="text-xs font-bold uppercase tracking-[0.2em] text-espresso-700 dark:text-espresso-400">Program Keanggotaan Caffein Club</span>
+              <h3 class="font-display text-2xl font-bold text-stone-900 dark:text-stone-100">Simulator Poin & Keuntungan Member</h3>
+              <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed text-justify">
+                Geser jumlah kunjungan mingguan Anda untuk melihat simulasi akumulasi poin bulanan beserta hadiah minuman signature atau kemasan biji kopi gratis yang dapat Anda klaim.
+              </p>
+              <div class="pt-2">
+                <div class="flex justify-between text-xs font-semibold mb-2">
+                  <span>Frekuensi Kunjungan per Minggu</span>
+                  <span id="loyalty-visits-label" class="text-espresso-700 dark:text-espresso-400 font-bold">3x / Minggu</span>
+                </div>
+                <input type="range" id="loyalty-slider" min="1" max="7" value="3" oninput="updateLoyaltySim()" class="w-full" />
+              </div>
+            </div>
+
+            <div class="lg:col-span-6 grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#c8b6a2] dark:divide-[#332721] text-center">
+              <div class="py-3 sm:py-0 sm:px-4">
+                <span class="text-[10px] uppercase tracking-wider text-stone-500 block">Level Member</span>
+                <span id="loyalty-tier" class="font-display font-bold text-base text-espresso-700 dark:text-espresso-400 mt-1 block">Gold Brewer</span>
+              </div>
+              <div class="py-3 sm:py-0 sm:px-4">
+                <span class="text-[10px] uppercase tracking-wider text-stone-500 block">Poin per Bulan</span>
+                <span id="loyalty-points" class="font-display font-extrabold text-xl text-stone-900 dark:text-stone-100 mt-1 block">360 Poin</span>
+              </div>
+              <div class="py-3 sm:py-0 sm:px-4">
+                <span class="text-[10px] uppercase tracking-wider text-stone-500 block">Reward Bulanan</span>
+                <span id="loyalty-reward" class="font-display font-bold text-xs text-emerald-700 dark:text-emerald-400 mt-1 block">2 Cup Signature Gratis</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==========================================
+         HALAMAN 7: ULASAN PELANGGAN & FAQ
+         ========================================== -->
+    <div id="page-ulasan" class="page-section py-12 sm:py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+        
+        <div>
+          <div class="grid lg:grid-cols-12 gap-3.5 sm:gap-6 lg:gap-10 items-end mb-10 pb-6 border-b border-[#dfd3c5]/80 dark:border-[#332721]">
+            <div class="lg:col-span-7">
+              <p class="text-xs font-bold uppercase tracking-[0.2em] text-espresso-700 dark:text-espresso-400 mb-2">Halaman Testimoni & Tanya Jawab</p>
+              <h1 class="font-display text-3xl sm:text-4xl font-bold text-stone-900 dark:text-stone-50 tracking-tight">
+                Suara Komunitas & Informasi Layanan
+              </h1>
+            </div>
+            <div class="lg:col-span-5 lg:border-l lg:border-[#c8b6a2]/70 dark:lg:border-[#332721] lg:pl-6">
+              <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed text-justify">
+                Bagikan pengalaman Anda berkunjung ke Caffein atau temukan jawaban lengkap atas pertanyaan umum seputar kesegaran biji kopi dan fasilitas ruang kerja.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid lg:grid-cols-12 gap-4 lg:gap-8 items-stretch">
+            <!-- Review Cards (7 Cols) -->
+            <div class="lg:col-span-7 grid gap-4" id="reviews-list">
+              <!-- Populated via JS -->
+            </div>
+
+            <!-- Add Review Form (5 Cols) -->
+            <div class="lg:col-span-5 sharp-box p-6 sm:p-7 flex flex-col">
+              <h3 class="font-display font-bold text-lg text-stone-900 dark:text-stone-100">Tulis Ulasan Pengalaman Anda</h3>
+              <p class="text-xs text-stone-500 dark:text-stone-400 mt-1 mb-5 pb-5 border-b border-[#dfd3c5]/80 dark:border-[#332721]">Ulasan yang Anda kirimkan akan langsung ditampilkan pada daftar testimoni komunitas di samping.</p>
+              <form onsubmit="submitReview(event)" class="flex-1 flex flex-col gap-4">
+                <div>
+                  <label for="rev-name" class="block text-xs font-semibold text-stone-600 dark:text-stone-400 mb-1.5">Nama</label>
+                  <input type="text" id="rev-name" required placeholder="Contoh: Raka Mahendra" class="w-full h-10 px-3 bg-white/60 dark:bg-[#14100d] border border-[#c8b6a2] dark:border-[#332721] text-sm text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:outline-none focus:border-espresso-700 focus:ring-1 focus:ring-espresso-700/40" />
+                </div>
+                <div class="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label for="rev-role" class="block text-xs font-semibold text-stone-600 dark:text-stone-400 mb-1.5">Profesi / Status</label>
+                    <input type="text" id="rev-role" required placeholder="Contoh: Arsitek" class="w-full h-10 px-3 bg-white/60 dark:bg-[#14100d] border border-[#c8b6a2] dark:border-[#332721] text-sm text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:outline-none focus:border-espresso-700 focus:ring-1 focus:ring-espresso-700/40" />
+                  </div>
+                  <div>
+                    <label for="rev-Ordered" class="block text-xs font-semibold text-stone-600 dark:text-stone-400 mb-1.5">Menu Favorit</label>
+                    <input type="text" id="rev-Ordered" required placeholder="Contoh: V60 Flores Bajawa" class="w-full h-10 px-3 bg-white/60 dark:bg-[#14100d] border border-[#c8b6a2] dark:border-[#332721] text-sm text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:outline-none focus:border-espresso-700 focus:ring-1 focus:ring-espresso-700/40" />
+                  </div>
+                </div>
+                <div class="flex-1 flex flex-col">
+                  <label for="rev-text" class="block text-xs font-semibold text-stone-600 dark:text-stone-400 mb-1.5">Komentar</label>
+                  <textarea id="rev-text" rows="4" style="min-height:7rem;flex:1" required placeholder="Ceritakan kesan Anda tentang rasa kopi atau suasana ruang kerja..." class="w-full py-2.5 px-3 bg-white/60 dark:bg-[#14100d] border border-[#c8b6a2] dark:border-[#332721] text-sm text-stone-900 dark:text-stone-100 placeholder:text-stone-400 focus:outline-none focus:border-espresso-700 focus:ring-1 focus:ring-espresso-700/40 resize-none"></textarea>
+                </div>
+                <button type="submit" class="btn-click-anim w-full h-11 bg-stone-900 dark:bg-espresso-600 text-white text-xs font-semibold uppercase tracking-wider hover:bg-espresso-700 transition-colors">Kirim Testimoni</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ Accordion -->
+        <div class="pt-10 border-t border-[#dfd3c5]/80 dark:border-[#332721]">
+          <div class="max-w-4xl">
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-espresso-700 dark:text-espresso-400 mb-2">Informasi Layanan</p>
+            <h2 class="font-display text-2xl font-bold text-stone-900 dark:text-stone-100 mb-6">Pertanyaan yang Sering Diajukan (FAQ)</h2>
+            <div id="faq-container">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#1b1512] text-stone-400 py-12 border-t border-[#332721] mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-10 items-start pb-10 border-b border-[#332721]">
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-stone-200 mb-4 leading-6">CAFFEIN</h4>
+          <p class="text-xs text-stone-400 leading-6 text-left">
+            Specialty Coffee Roastery, Manual Slow Bar & Ruang Kolaboratif di Semarang. Menghadirkan biji kopi pilihan Nusantara dengan standar penyangraian presisi dan transparansi rantai pasok.
+          </p>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-stone-200 mb-4 leading-6">Lokasi & Jam Operasional</h4>
+          <ul class="text-xs leading-6 text-stone-400">
+            <li>Jl. Pemuda No. 118, Semarang Tengah</li>
+            <li>Senin – Jumat: 07:00 – 23:00 WIB</li>
+            <li>Sabtu – Minggu: 07:00 – 24:00 WIB</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-stone-200 mb-4 leading-6">Navigasi Halaman</h4>
+          <ul class="text-xs leading-6 text-stone-400">
+            <li><button onclick="switchPage('beranda')" class="text-left hover:text-white transition-colors">Beranda & Profil Usaha</button></li>
+            <li><button onclick="switchPage('menu')" class="text-left hover:text-white transition-colors">Katalog Menu Lengkap</button></li>
+            <li><button onclick="switchPage('racik')" class="text-left hover:text-white transition-colors">Simulator Racik Kopi</button></li>
+            <li><button onclick="switchPage('biji')" class="text-left hover:text-white transition-colors">Eksplorasi Biji Nusantara</button></li>
+            <li><button onclick="switchPage('seduh')" class="text-left hover:text-white transition-colors">Kalkulator Rasio Seduh</button></li>
+            <li><button onclick="switchPage('reservasi')" class="text-left hover:text-white transition-colors">Reservasi Meja Kerja</button></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-stone-200 mb-4 leading-6">Layanan Roastery & B2B</h4>
+          <p class="text-xs text-stone-400 leading-6 text-left">
+            Kami melayani suplai biji kopi sangrai segar (wholesale) beserta konsultasi kalibrasi mesin untuk hotel, restoran, dan kedai kopi di seluruh Indonesia.
+          </p>
+          <span class="inline-block mt-3 text-xs leading-6 font-mono text-espresso-300 border-b border-espresso-700">
+            roastery@caffein.co.id
+          </span>
+        </div>
+      </div>
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-2">
+        <p>&copy; 2025 Caffein Roastery. Seluruh hak cipta dilindungi.</p>
+        <p>Kode Promo Aktif: <strong class="text-espresso-400 font-mono">CAFFEIN20</strong> (Diskon 20% Pembelian Pertama)</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+        DRAWER KERANJANG BELANJA & CHECKOUT
+       ========================================== -->
+  <div id="cart-drawer-backdrop" onclick="toggleCartDrawer(false)" class="fixed inset-0 bg-black/50 z-50 hidden backdrop-blur-xs"></div>
+  <aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-[#fbf8f4]/95 dark:bg-[#16110e]/95 backdrop-blur-md border-l border-[#dfd3c5] dark:border-[#332721] z-50 translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-5 border-b border-[#dfd3c5] dark:border-[#332721] flex items-center justify-between">
+      <div>
+        <h3 class="font-display font-bold text-base text-stone-900 dark:text-stone-100">Keranjang Pesanan</h3>
+        <p class="text-xs text-stone-500 dark:text-stone-400">Dine-in, Pick-up, atau Pesan Antar Instan</p>
+      </div>
+      <button onclick="toggleCartDrawer(false)" class="p-2 text-stone-500 hover:text-stone-900 dark:hover:text-white">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- Order Mode Switcher -->
+    <div class="px-5 pt-4">
+      <div class="grid grid-cols-3 border-b border-[#dfd3c5] dark:border-[#332721] text-xs font-semibold">
+        <button onclick="setOrderType('Dine-In')" data-otype="Dine-In" class="otype-btn py-2.5 border-b-2 border-espresso-700 text-espresso-800 dark:text-espresso-300 font-bold">Dine-In</button>
+        <button onclick="setOrderType('Pick-Up')" data-otype="Pick-Up" class="otype-btn py-2.5 border-b-2 border-transparent text-stone-500 dark:text-stone-400">Pick-Up</button>
+        <button onclick="setOrderType('Delivery')" data-otype="Delivery" class="otype-btn py-2.5 border-b-2 border-transparent text-stone-500 dark:text-stone-400">Delivery</button>
+      </div>
+    </div>
+
+    <!-- Cart Items List -->
+    <div id="cart-items-container" class="flex-1 overflow-y-auto p-5 space-y-3">
+      <!-- Populated via JS -->
+    </div>
+
+    <!-- Promo & Summary Footer -->
+    <div class="p-5 border-t border-[#dfd3c5] dark:border-[#332721] bg-[#efe6dc]/50 dark:bg-[#1f1814] space-y-4">
+      <div class="flex gap-2">
+        <input type="text" id="promo-input" placeholder="Kode promo (ketik: CAFFEIN20)" class="flex-1 px-3 py-2 bg-white/70 dark:bg-[#14100d] border border-[#c8b6a2] dark:border-[#332721] text-xs uppercase font-mono text-stone-900 dark:text-stone-100 focus:outline-none focus:border-espresso-600" />
+        <button onclick="applyPromoCode()" class="btn-click-anim px-4 py-2 bg-stone-800 text-white text-xs font-semibold uppercase tracking-wider hover:bg-espresso-700 transition-colors">Pakai</button>
+      </div>
+
+      <div class="space-y-1.5 text-xs">
+        <div class="flex justify-between text-stone-600 dark:text-stone-400">
+          <span>Subtotal</span>
+          <span id="cart-subtotal" class="font-mono">Rp 0</span>
+        </div>
+        <div class="flex justify-between text-emerald-700 dark:text-emerald-400 hidden" id="cart-discount-row">
+          <span>Diskon Promo (CAFFEIN20)</span>
+          <span id="cart-discount" class="font-mono">-Rp 0</span>
+        </div>
+        <div class="flex justify-between text-stone-600 dark:text-stone-400">
+          <span>Pajak & Layanan (10%)</span>
+          <span id="cart-tax" class="font-mono">Rp 0</span>
+        </div>
+        <div class="flex justify-between text-sm font-bold text-stone-900 dark:text-white pt-2 border-t border-[#dfd3c5] dark:border-[#332721]">
+          <span>Total Pembayaran</span>
+          <span id="cart-total" class="font-display text-base">Rp 0</span>
+        </div>
+      </div>
+
+      <button onclick="processCheckout()" class="btn-click-anim w-full py-3.5 bg-stone-900 dark:bg-espresso-600 hover:bg-espresso-800 text-white font-semibold text-xs uppercase tracking-wider transition-colors">
+        Konfirmasi & Buat Pesanan
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==========================================
+       MODAL KUSTOMISASI ITEM MENU
+       ========================================== -->
+  <div id="item-modal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4 backdrop-blur-xs">
+    <div class="sharp-box bg-[#fbf8f4]/95 dark:bg-[#1b1512]/95 max-w-md w-full max-h-[90vh] overflow-y-auto p-5 sm:p-6 space-y-5">
+      <div class="flex items-start justify-between border-b border-[#dfd3c5] dark:border-[#332721] pb-4">
+        <div>
+          <span id="modal-item-cat" class="text-[10px] font-bold uppercase tracking-widest text-espresso-700 dark:text-espresso-400">Signature</span>
+          <h3 id="modal-item-name" class="font-display font-bold text-lg text-stone-900 dark:text-stone-100 mt-0.5">Es Kopi Caffein Aren</h3>
+        </div>
+        <button onclick="closeItemModal()" class="p-1.5 text-stone-400 hover:text-stone-800 dark:hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <p id="modal-item-desc" class="text-xs text-stone-600 dark:text-stone-400 leading-relaxed text-justify"></p>
+
+      <div id="modal-drink-options" class="space-y-4">
+        <div>
+          <label class="block text-[11px] font-bold uppercase tracking-wider text-stone-500 mb-1.5">Ukuran Cup</label>
+          <div class="grid grid-cols-2 divide-x divide-[#c8b6a2] dark:divide-[#332721] seg-control-grid">
+            <label class="cursor-pointer p-2.5 text-xs flex items-center gap-2">
+              <input type="radio" name="modal-size" value="Regular|0" checked onchange="updateModalPrice()" class="accent-espresso-700" />
+              <span>Regular (+Rp 0)</span>
+            </label>
+            <label class="cursor-pointer p-2.5 text-xs flex items-center gap-2">
+              <input type="radio" name="modal-size" value="Large|5000" onchange="updateModalPrice()" class="accent-espresso-700" />
+              <span>Large 16oz (+Rp 5.000)</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-bold uppercase tracking-wider text-stone-500 mb-1.5">Tingkat Gula & Es</label>
+          <div class="grid grid-cols-2 gap-2">
+            <select id="modal-sugar" class="px-3 py-2 bg-white/70 dark:bg-[#14100d] border border-[#c8b6a2] dark:border-[#332721] text-xs">
+              <option value="Normal Sweet">Gula Normal (100%)</option>
+              <option value="Less Sweet" selected>Less Sweet (75%)</option>
+              <option value="Half Sweet">Half Sweet (50%)</option>
+              <option value="No Sugar">Tanpa Gula (0%)</option>
+            </select>
+            <select id="modal-ice" class="px-3 py-2 bg-white/70 dark:bg-[#14100d] border border-[#c8b6a2] dark:border-[#332721] text-xs">
+              <option value="Normal Ice" selected>Es Normal</option>
+              <option value="Less Ice">Less Ice</option>
+              <option value="Hot">Sajikan Panas (Hot)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-[#dfd3c5] dark:border-[#332721] flex items-center justify-between">
+        <div>
+          <span class="text-[10px] text-stone-500 uppercase block">Harga Item</span>
+          <span id="modal-item-price" class="font-display font-extrabold text-xl text-stone-900 dark:text-white">Rp 28.000</span>
+        </div>
+        <button onclick="confirmModalAddToCart()" class="btn-click-anim px-5 py-3 bg-stone-900 dark:bg-espresso-600 text-white text-xs font-semibold uppercase tracking-wider hover:bg-espresso-700 transition-colors">
+          Tambah ke Keranjang
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL ASISTEN PENCOCOK KOPI (BARISTA QUIZ)
+       ========================================== -->
+  <div id="quiz-modal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4 backdrop-blur-xs">
+    <div class="sharp-box bg-[#fbf8f4]/95 dark:bg-[#1b1512]/95 max-w-lg w-full max-h-[90vh] overflow-y-auto p-5 sm:p-8 space-y-5">
+      <div class="flex items-start justify-between border-b border-[#dfd3c5] dark:border-[#332721] pb-4">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-widest text-espresso-700 dark:text-espresso-400">Rekomendasi Personal</span>
+          <h3 class="font-display font-bold text-lg text-stone-900 dark:text-stone-100 mt-0.5">Asisten Pencocok Profil Kopi</h3>
+        </div>
+        <button onclick="closeQuizModal()" class="p-1.5 text-stone-400 hover:text-stone-800 dark:hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-stone-500 mb-2">1. Karakter Rasa Apa yang Anda Sukai?</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-[#c8b6a2] dark:divide-[#332721] seg-control-grid">
+            <label class="cursor-pointer p-3 flex items-center gap-2.5">
+              <input type="radio" name="q-flavor" value="creamy" checked class="accent-espresso-700 shrink-0" />
+              <span>Creamy, Manis Aren & Cokelat</span>
+            </label>
+            <label class="cursor-pointer p-3 flex items-center gap-2.5">
+              <input type="radio" name="q-flavor" value="fruity" class="accent-espresso-700 shrink-0" />
+              <span>Segar, Fruity & Tanpa Susu</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase tracking-wider text-stone-500 mb-2">2. Kebutuhan Kafein Hari Ini?</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-[#c8b6a2] dark:divide-[#332721] seg-control-grid">
+            <label class="cursor-pointer p-3 flex items-center gap-2.5">
+              <input type="radio" name="q-strength" value="strong" checked class="accent-espresso-700 shrink-0" />
+              <span>Fokus Kerja Tinggi (Kuat)</span>
+            </label>
+            <label class="cursor-pointer p-3 flex items-center gap-2.5">
+              <input type="radio" name="q-strength" value="light" class="accent-espresso-700 shrink-0" />
+              <span>Santai Sore (Ringan / Non-Kopi)</span>
+            </label>
+          </div>
+        </div>
+
+        <button onclick="runCoffeeMatcher()" class="btn-click-anim w-full py-3 bg-stone-900 dark:bg-espresso-600 text-white font-semibold uppercase tracking-wider hover:bg-espresso-700 transition-colors">
+          Lihat Rekomendasi Barista
+        </button>
+
+        <div id="quiz-result-box" class="hidden p-4 border-l-2 border-l-espresso-700 bg-white/50 dark:bg-[#241c18] space-y-2">
+          <span class="text-[10px] font-bold uppercase tracking-widest text-espresso-700 dark:text-espresso-400">Rekomendasi Terbaik Untuk Anda</span>
+          <h4 id="quiz-res-name" class="font-display font-bold text-base text-stone-900 dark:text-white"></h4>
+          <p id="quiz-res-desc" class="text-xs text-stone-600 dark:text-stone-400 text-justify"></p>
+          <button id="quiz-res-btn" class="line-action-link primary-line mt-2">
+            <span>Pesan Sekarang</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:bottom-5 sm:right-5 sm:max-w-md z-50 hidden sharp-box bg-stone-900/95 text-white border-stone-700 px-4 py-3 shadow-lg flex items-center gap-3 text-xs font-medium">
+    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+    <span id="toast-msg">Berhasil ditambahkan ke keranjang.</span>
+  </div>
+
+  <!-- ==========================================
+       APPLICATION LOGIC (JAVASCRIPT)
+       ========================================== -->
+  <script src="js/main.js"></script>
+</body>
+</html>
