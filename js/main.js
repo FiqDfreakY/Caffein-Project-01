@@ -1446,4 +1446,3 @@ window.addEventListener('DOMContentLoaded', () => {
   safe(updateLoyaltySim);
   safe(() => lucide.createIcons());
 });
-
